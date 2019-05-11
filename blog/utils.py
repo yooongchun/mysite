@@ -238,7 +238,7 @@ def record_comment(request, article):
                 if user_name == 'yooongchun' or user.email == 'yooongchun@foxmail.com':  # 非作者回复，不需通知
                     user_email = parent.user.email
                     threading.Thread(target=send_mail, args=({
-                                                                 'text': '作者yooongchun回复了您对文章[' + parent.blog.title + ']的评论' + '\n您说：[' + parent.content + ']\n作者回复您：[' + content + ']\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://yooongchun.cn\n祝您生活愉快！',
+                                                                 'text': '作者yooongchun回复了您对文章[' + parent.blog.title + ']的评论' + '\n您说：[' + parent.content + ']\n作者回复您：[' + content + ']\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://www.yooongchun.cn\n祝您生活愉快！',
                                                                  'header': '您在永春小站-文章[' + parent.blog.title + ']下的留言有新的回复啦~'
                                                              }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
                                                              user_email)).start()
