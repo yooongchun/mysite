@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}
+    <title data-value="{{ category }}">{{ title }}</title>
+{% endblock %}
+{% load static %}
+{% block content %}
+    <div id="photograph-page-container" style="width: 90%">
+        <div class="card mx-auto">
+            <div class="card-body row">
+                {% for img in img_list %}
+                    <div class="col-sm-6">
+                        <div class="card" style="background-color: transparent;margin:20px 0 0 0">
+                            <div class="card-body rounded"
+                                 style="margin:0;padding: 0;background-image: url('{{ img.url }}');background-size: cover">
+                                <div class="font-weight-bold"
+                                     style="width: 100%;height:auto;margin-top:100px;margin-bottom:100px;text-align: center;color: ghostwhite;">
+                                    <a href="{% url 'blog:photograph_collection' img.collection %}"
+                                       style="text-decoration:none">
+                                        <div><h4 class="text-primary font-weight-bold">影集:{{ img.collection }}</h4>
+                                        </div>
+                                        <div>作者:{{ img.author.username }}</div>
+                                        <div>{{ img.description }}</div>
+                                        <div>{{ img.pub_date }}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

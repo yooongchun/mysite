@@ -1,0 +1,71 @@
+{% extends 'blog/base.html' %}
+{% block title %}
+    <title data-value="{{ category }}">{{ title }}</title>
+{% endblock %}
+{% block content %}
+    <div class="container" style="width: 90%;">
+        <div class="card">
+            <div class="card-body mx-auto" style="width: 90%">
+                <h6 class="text-primary font-weight-bold" style="text-align: center">如果您觉得我的文章对您有帮助，喜欢我的文章，不妨给予一点小额赞助支持一下，谢谢！</h6>
+                <div class="card " style="margin-top: 50px;">
+                    <div class="card-header">
+                        <h6>赞助方式一：支付宝手机扫码</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3 mx-auto ">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/alipay_1.jpg"
+                                     alt="img" class="pay-img">
+                                <h6 class="mx-auto">￥1.99</h6>
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/alipay_2.jpg"
+                                     alt="img" class="pay-img">
+                                <h6>￥4.99</h6>
+                            </div>
+                            <div class="col-sm-3 ">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/alipay_3.jpg"
+                                     alt="img" class="pay-img">
+                                <h6>￥9.99</h6>
+                            </div>
+                            <div class="col-sm-3 ">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/alipay_any.jpg"
+                                     alt="img" class="pay-img">
+                                <h6>￥Any</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 50px;">
+                    <div class="card-header ">
+                        <h6>赞助方式二：微信手机扫码</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3 mx-auto ">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/wechat_pay_1.jpg"
+                                     alt="img" class="pay-img">
+                                <h6 class="mx-auto">￥1.99</h6>
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/wechat_pay_2.png"
+                                     alt="img" class="pay-img">
+                                <h6>￥4.99</h6>
+                            </div>
+                            <div class="col-sm-3 ">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/wechat_pay_3.png"
+                                     alt="img" class="pay-img">
+                                <h6>￥9.99</h6>
+                            </div>
+                            <div class="col-sm-3 ">
+                                <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/wechat_pay_any.png"
+                                     alt="img" class="pay-img">
+                                <h6>￥Any</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

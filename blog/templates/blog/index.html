@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    <title >{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="width: 90%">
+        <!--Card:最热文章-->
+        <div class="card">
+            <div class="card-header">
+                <h6><i class="el el-fire icon-common"></i>&nbsp;热门文章
+                    <small class="side-secondary text-secondary">Popular Articles</small>
+                </h6>
+            </div>
+            <div class="card-body">
+                {% for article in article_popular_list %}
+                    {% include "blog/article-list.html" %}
+                {% endfor %}
+            </div>
+        </div>
+        <!--Card:最新文章-->
+        <div class="card second-card">
+            <div class="card-header">
+                <h6><i class="el el-idea icon-common"></i>&nbsp;最新文章
+                    <small class="side-secondary text-secondary">Latest Articles</small>
+                </h6>
+            </div>
+            <div class="card-body">
+                {% for article in article_latest_list %}
+                    {% include "blog/article-list.html" %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

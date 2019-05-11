@@ -1,0 +1,52 @@
+{% load static %}
+{% for parent_comment,children_comment_list in group_comment_dict.items %}
+    <div class="card" style="margin-top:20px;">
+        <div class="card-body each-comment-display" data-value="{{ parent_comment.id }}">
+            <div class="comment-reply-info-line">
+                <img src="{{ parent_comment.user.icon.url }}" alt="头像" class="rounded-circle" width="30" height="30">
+                <span style="margin:auto" class="comment-user">{{ parent_comment.user.username }}</span>
+                <span class="side-secondary text-secondary"><i
+                        class="el el-time icon-common"></i>&nbsp;{{ parent_comment.pub_date }}</span>
+            </div>
+            <div class="row" style="margin-left:40px;">
+                <div class="col-sm-10 font-weight-bold text-primary"
+                     style="padding: 0;border-radius: 5px;background-color: rgba(200,200,200,0.2);">
+                    {{ parent_comment.content }}
+                </div>
+                <div class="col-sm-2">
+                    <a title="回复 {{ parent_comment.user.username }}" data-toggle="tooltip">
+                        <button class="btn-sm btn-info font-weight-bold rounded-circle comment-reply-btn">
+                            回复
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="reply-comment" style="display: none;">
+                {% include "blog/comment.html" %}
+            </div>
+            {#回复的评论#}
+            {% for child_comment in children_comment_list %}
+                <div class="card" style="margin-left:40px;margin-top: 10px;margin-right: 80px;">
+                    <div class="card-body" style="margin: 0;padding: 0;">
+                        <div>
+                            <img src="{{ child_comment.user.icon.url }}" alt="头像" class="rounded-circle" width="30"
+                                 height="30">
+                            <span style="margin:auto">{{ child_comment.user.username }}</span>
+                            <span class="side-secondary text-secondary">
+                                回复{{ parent_comment.user.username }}
+                                <i class="el el-time icon-common"></i>
+                                &nbsp;{{ child_comment.pub_date }}
+                            </span>
+                        </div>
+                        <div class="row" style="margin-left:40px;">
+                            <div class="col-sm-11 text-info"
+                                 style="padding: 0;border-radius: 5px;background-color: rgba(200,200,200,0.2);">
+                                {{ child_comment.content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}

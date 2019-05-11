@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    <title class="article-category">{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="width: 90%">
+        {% for article in searched_blog_list %}
+            {% include "blog/article-list.html" %}
+        {% endfor %}
+    </div>
+{% endblock %}

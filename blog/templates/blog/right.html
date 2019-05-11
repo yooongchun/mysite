@@ -1,0 +1,214 @@
+{% load static %}
+<aside class="side">
+    <!--回到顶部提示-->
+    <div class="go-to-top rounded-circle">
+        <a href="javascript:void(0);" class="go-top-img">
+            <img src="{% static "blog/images/top.png" %}" alt='go-top' width="50px" height="50px" class="rounded-circle">
+        </a>
+    </div>
+    <!--Card:关注我-->
+    <div class="card right-side-first-card">
+        <div class="card-header text-primary font-weight-bold">
+            <h6 class="font-weight-bold"><i class="el el-heart icon-common"></i>&nbsp;关注我
+                <small class="right-side-secondary text-secondary">Follow me</small>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row" style="margin-left: 10px">
+                <div class="col-md-3" style="padding: 0;">
+                    <a href="https://github.com/yooongchun" title="Github地址" data-toggle="tooltip">
+                        <img src="{% static 'blog/images/github.png' %}" alt="github" class="right-side-first-card-img">
+                    </a>
+                    <br>
+                    <small>Github</small>
+                </div>
+                <div class="col-md-3" style="padding: 0;">
+                    <a id="wechat-official-account" href="#" title="微信扫码关注我吧~" data-placement="bottom"
+                       data-content="<img style='margin-left:20px;' src='https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/WechatOfficialAccount_middle.jpg' alt='wechat' width='100px' height='100px' >">
+                        <img src="{% static 'blog/images/wechat_moment.png' %}" alt="subscribe"
+                             class="right-side-first-card-img">
+                    </a>
+                    <br>
+                    <small>Subscribe</small>
+                </div>
+                <div class="col-md-3" style="padding: 0;">
+                    <a title="给博主发邮件" data-toggle="tooltip" target="_blank"
+                       href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=i-Lk5OTl7Ojj-uXL7eTz5uri56Xo5OY">
+                        <img src="{% static 'blog/images/email.png' %}" alt="email" class="right-side-first-card-img">
+                    </a>
+                    <br>
+                    <small>Email</small>
+                </div>
+                <div class="col-md-3" style="padding: 0;">
+                    <a href="#" title="微信扫码加我好友~" id="wechat-add-friend" data-placement="bottom"
+                       data-content="<img style='margin-left:20px;' src='https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/wechat_cool_style.jpg' alt='wechat' width='100px' height='100px' >">
+                        <img src="{% static 'blog/images/wechat.png' %}" alt="wechat"
+                             class="right-side-first-card-img">
+                    </a>
+                    <br>
+                    <small>Wechat</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Card专栏列表-->
+    <div class="card right-side-rear-card ">
+        <div class="card-header text-primary font-weight-bold">
+            <h6 class="font-weight-bold"><i class="el el-tasks icon-common"></i>&nbsp;专栏列表
+                <small class="right-side-secondary text-secondary">Collection List</small>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row" style="margin:0;padding:0;">
+                {% for collection in collection_list %}
+                    <div class="col-sm-6" style="margin:0;padding:0">
+                        <h6 class=" text-primary font-weight-bold right-side-forth-card">
+                            <a href="{% url 'blog:collection_list' collection.collection 0 %}">{{ collection.collection }}</a>
+                        </h6>
+                        <small class="right-side-secondary text-secondary">阅读量:{{ collection.read_num }}</small>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!--标签云-->
+    <div class="card right-side-rear-card ">
+        <div class="card-header text-primary font-weight-bold">
+            <h6 class="font-weight-bold"><i class="el el-tags icon-common"></i>&nbsp;标签云
+                <small class="right-side-secondary text-secondary">Tags Cloud</small>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row" style="margin:0;padding:0;">
+                {% for tag in tag_list %}
+                    <div class="col-sm-4" style="margin:0;padding:0">
+                        <h6 class=" text-primary font-weight-bold right-side-forth-card">
+                            <a href="{% url 'blog:article_tag' tag.tag 1 %}">{{ tag.tag }}</a>
+                        </h6>
+                        <small class="right-side-secondary text-secondary">阅读量:{{ tag.read_num }}</small>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!--Card:站点讯息-->
+    <div class="card right-side-rear-card ">
+        <div class="card-header text-primary font-weight-bold">
+            <h6 class="font-weight-bold"><i class="el el-info-circle icon-common"></i>&nbsp;站点讯息
+                <small class="right-side-secondary text-secondary">Site Information</small>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row" style="margin-left: 10px">
+                <div class="col-sm-6">
+                    <div class="row"><h6><i class="el el-dashboard icon-common"></i>&nbsp;文章数:</h6>&nbsp;<small
+                            class="right-side-second-card-num" id="article-all-nums">{{ total_article_num }}
+                    </small>
+                    </div>
+                    <div class="row right-side-second-card-line"><h6><i class="el el-comment icon-common"></i>&nbsp;评论数:
+                    </h6>&nbsp;<small
+                            class="right-side-second-card-num">{{ total_comment_num }}
+                    </small>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row"><h6><i class="el el-thumbs-up icon-common"></i>&nbsp;点赞数:</h6>&nbsp;<small
+                            class="right-side-second-card-num">{{ total_approval_num }}
+                    </small>
+                    </div>
+                    <div class="row right-side-second-card-line"><h6><i class="el el-list-alt icon-common"></i>&nbsp;访问量:
+                    </h6>&nbsp;<small class="right-side-second-card-num">{{ total_visit_num }}
+                    </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Card:最新资讯-->
+    <div class="card right-side-rear-card ">
+        <div class="card-header text-primary font-weight-bold">
+            <h6 class="font-weight-bold"><i class="el el-bell icon-common"></i>&nbsp;最新资讯
+                <small class="right-side-secondary text-secondary">Latest News</small>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <i class="el el-cloud icon-common"></i>&nbsp;
+                <iframe width="250" scrolling="no" height="25" frameborder="0" allowtransparency="true"
+                        src="//i.tianqi.com/index.php?c=code&id=1&icon=1&wind=1&num=1&site=15"></iframe>
+            </div>
+            <div class="row right-side-third-card-history">
+                <i class="el el-calendar icon-common icon-common-margin"></i>&nbsp;
+                <small class="icon-common-margin"> 历史今天:</small>&nbsp;
+                <iframe src="http://www.todayonhistory.com/code/6.html?w=300&h=30&bky=dotted&bks=0&bkc=#CFCFCF&fs=15&fc=#565656&hg=30&ie=0&xhx=none&sd=2000&px=3&len=0&sk=1&n=0"
+                        width="250" height="30" scrolling="no" frameborder="0" allowtransparency="true"
+                        style="border: 0 dotted #CFCFCF"></iframe>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--Card:文章归档-->
+    <div class="card right-side-rear-card ">
+        <div class="card-header text-primary font-weight-bold">
+            <h6 class="font-weight-bold"><i class="el el-folder icon-common"></i>&nbsp;文章归档
+                <small class="right-side-secondary text-secondary">Article Folders</small>
+            </h6>
+        </div>
+        <div class="card-body">
+            {% for archive in archive_folder_list %}
+                <h6 class=" text-primary font-weight-bold">
+                    <a href="{% url 'blog:archive' archive.date.year archive.date.month 1 %}">
+                        {{ archive.archive_name }}
+                        <small class="text-secondary right-side-last-side-info">{{ archive.article_num }}篇 &nbsp;{{ archive.read_num }}次访问
+                        </small>
+                    </a>
+                </h6>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!--Card：友情链接-->
+    <div class="card right-side-rear-card ">
+        <div class="card-header text-primary font-weight-bold">
+            <h6 class="font-weight-bold"><i class="el el-link icon-common"></i>&nbsp;友情链接
+                <small class="right-side-secondary text-secondary">Friend Links</small>
+                <a href="javascript:void(0);" data-toggle="popover" title="输入链接信息" class="float-right"
+                   id="apply-link-btn"
+                   data-content='<div class="apply-link-box">
+                                    <form action="{% url "blog:friend_link" %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="input-group mb-3 input-group-sm">
+                                        <input type="text" class="form-control" name="site-name" placeholder="网站名称">
+                                    </div>
+                                    <div class="input-group mb-3 input-group-sm">
+                                        <input type="text" class="form-control" name="url" placeholder="链接地址">
+                                    </div>
+                                    <div class="input-group mb-3 input-group-sm">
+                                        <input type="text" class="form-control" name="description" placeholder="描述信息">
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-primary" style="margin-top:5px">提交</button>
+                                </form>
+                            </div>'>
+                    <small><i class="el el-plus icon-common"></i>&nbsp;申请</small>
+                </a>
+            </h6>
+        </div>
+        <div class="card-body">
+            <span class="row" style="">
+                {% for link in friend_link_list %}
+                    <span class="rounded border apply-link" style="margin-left:20px;margin-top:10px;">
+                        <a href="{{ link.url }}" title="{{ link.description }}" target="_blank" data-toggle="tooltip">
+                            <small style="color:orangered;padding: 3px;opacity: 0.8;">{{ link.name }}</small>
+                        </a>
+                    </span>
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+</aside>

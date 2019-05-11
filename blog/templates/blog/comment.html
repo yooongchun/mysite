@@ -1,0 +1,28 @@
+{% load static %}
+<section class="comment">
+    <div class="card">
+        <div class="card-body mt-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        {% include "blog/comment-header-icon.html" %}
+                    </span>
+                </div>
+                <input type="text" class="form-control nick-name" placeholder="用户名(*必填)" id="nick-name">
+                <input type="text" class="form-control email" placeholder="邮箱(仅用作回复通知，*必填)" id="email">
+            </div>
+            {% block message %}{% endblock %}
+            <textarea type="text" class="form-control comment-content" placeholder="说点什么吧~" rows="5"></textarea>
+            <input type="checkbox" class="comment-reply" id="comment-reply">
+            <span>作者回复时邮件通知我</span>
+            <a id="btn-comment" title="提交你的评论" class="float-sm-right" data-toggle="tooltip">
+                <button class="btn btn-primary comment-submit">提交</button>
+            </a>
+        </div>
+    </div>
+    <div class="alert alert-danger alert-dismissable response-comment-info-box"
+         style="display: none;z-index: 200;">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong class="response-comment-info"></strong>
+    </div>
+</section>

@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    <title data-value="{{ category }}">{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container message-container" style="width: 90%;">
+        {% include "blog/make-message.html" %}
+        {% include "blog/message-display.html" %}
+        <!--分页开始-->
+        {% include "blog/pagination.html" %}
+        <!--分页结束-->
+    </div>
+{% endblock %}

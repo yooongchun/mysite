@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-sm-3">
+        <div class="card" style="margin: 0">
+            <div class="card-header" style="margin: 0;background: rgba(248, 248, 255,0.6)">
+                <span class="text-secondary font-weight-bold" style="opacity: 0.7">{{ collection_name }}</span>
+            </div>
+            <div class="card-body" style="margin: 0;background: rgba(240, 255, 240,0.2);">
+                <table class="table table-sm  rounded">
+                    <tbody>
+                    {% for i,sub_article_list in article_collection_list %}
+                        {% if i >= 0 %}
+                            <tr>
+                                <td style="color:rgba(30,144,255,0.8);font-weight: bold">{{ sub_article_list.0.collection_tag.tag_name }}</td>
+                            </tr>
+                        {% endif %}
+                        {% for target_article in sub_article_list %}
+                            <tr>
+                                {% if target_article.password == default_password %}
+                                    {% if target_article.id == article.id %}
+                                        <td class="collection_link_item rounded"
+                                            style="background:rgba(154, 205, 50,0.2)">
+                                            <a href="{% url 'blog:collection_list' collection_name target_article.id %}">
+                                                <small style="font-weight: bold;color: orangered;opacity: 0.7">{{ target_article.title }}</small>
+                                            </a></td>
+                                    {% else %}
+                                        <td class="collection_link_item rounded" style="">
+                                            <a href="{% url 'blog:collection_list' collection_name target_article.id %}">
+                                                <small style="font-weight: bold;opacity: 0.7">{{ target_article.title }}</small>
+                                            </a></td>
+                                    {% endif %}
+                                {% else %}
+                                    {% if target_article.id == article.id %}
+                                        <td class="collection_link_item rounded"
+                                            style="background:rgba(154, 205, 50,0.2)">
+                                            {% else %}
+                                        <td class="collection_link_item rounded"
+                                            style="">
+                                    {% endif %}
+                                <a href="javascript:void(0);" class="article-input-password"
+                                   data-toggle="popover"
+                                   data-placement="right" title="付费文章，输入密码：" data-content='<div class="password-box">
+                                                <form action="{% url 'blog:collection_list' collection_name target_article.id %}" method="get">
+                                                    <div class="input-group mb-3 input-group-sm">
+                                                        <input type="password" class="form-control" name="psd" placeholder="输入密码或联系作者获取">
+                                                        <div class="input-group-append">
+                                                            <button type="submit" class="btn btn-sm btn-primary">确定</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>'>
+                                    {% if target_article.id == article.id %}
+                                        <small style="font-weight: bold;color:orangered;opacity: 0.7">{{ target_article.title }}
+                                            &nbsp;<i class="el el-unlock" style="color: orangered;opacity: 0.5"></i>
+                                        </small>
+                                    {% else %}
+                                        <small style="font-weight: bold;opacity: 0.7">{{ target_article.title }}
+                                            &nbsp;<i class="el el-lock" style="color: orangered;opacity: 0.5"></i>
+                                        </small>
+                                    {% endif %}
+
+                                </a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        {% if article %}
+            <div class="card" style="margin: 0">
+                <div class="card-body article-content typora-export os-windows" style="margin: 0;padding: 0">
+                    {% if article.render_with_markdown %}
+                        <div style="margin:0" id="editormd-box">
+                            <textarea id="editormd" style="display:none;">{{ article.content|safe }}</textarea>
+                        </div>
+                    {% else %}
+                        {{ article.content|safe }}
+                    {% endif %}
+                    <div class="article-detail-footer">
+                        {% include "blog/article-footer.html" %}
+                    </div>
+                    <div class="article-footer" style="margin-top: 50px">
+                        <div class="comment-box" style="">
+                            {% include "blog/comment.html" %}
+                        </div>
+                        <div class="comment-display-list" id="comment-display-list">
+                            {% include "blog/comment-display.html" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>

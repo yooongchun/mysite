@@ -1,0 +1,19 @@
+<!-- 头像选择 -->
+{% load static %}
+<div class="comment-icon">
+    <a class="head-ico show-ico-btn" title="选择头像" data-toggle="tooltip">
+        <img class="focus-ico comment-img rounded-circle" src="{{ random_image.url }}" alt="头像" width="30"
+             height="30">
+    </a>
+    <!-- 弹出窗口  start-->
+    <div class="card pop-ico">
+        <div class="card-body ico-list">
+            {% for i,image_url in image_list %}
+                {% if i == 0 %}<br/><br/>{% endif %}
+                <a class="float-left" style="margin-bottom: 5px"><img src="{{ image_url.url }}" alt="头像"
+                                                                      width="30" height="30"></a>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- 弹出窗口  end-->
+</div>

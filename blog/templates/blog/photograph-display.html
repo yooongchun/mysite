@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?93ae472721d92bdfd8d7d1b5f193f0fe";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?28d9e3a58053d42172ec6edd45f159c2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+{% load static %}
+<head>
+    <title>{{ title }}</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="Python，爬虫，算法，机器学习"/>
+    <meta name="description" content="一个个人网站，专注IT技术分享及记录生活"/>
+    <meta name="author" content="yooongchun"/>
+    <meta name="baidu-site-verification" content="ebCsifD2NR"/>
+    <meta name="google-site-verification" content="m68ZiUidOg_fjF9GGh5neTLa5psPliMoEG2OlFlk-fg"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+    <link rel="stylesheet" id="bw-style-css" href="{% static 'blog/css/photograph.css' %}" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/elusive-icons.min.css' %}">
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.11.2/jquery.js"></script>
+    <script type="text/javascript" src="{% static 'blog/js/tweenmax.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'blog/js/shortcode.js' %}"></script>
+    <script type="text/javascript"
+            src="https://cdn.staticfile.org/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="{% static 'blog/js/main.js' %}"></script>
+</head>
+
+<body class="image-copyright">
+<span id="image-copyright"
+      style="display: none; top: 100px;left:200px;">Hey, this photo is ©{{ image_list.0.author }}</span>
+<div id="wrapper">
+    <div id="container" class="">
+        <div id="djax" class="djax-dynamic">
+            <div id="content">
+                <div class="bw--rail">
+                    <div id="rail-screen">
+                        <div id="rail-slider" style="">
+                            <div id="rail" class="">
+                                {% for img in image_list %}
+                                    <img class="copyright" style="margin-right: 4px; opacity: 0.3;" src="{{ img.url }}"
+                                         alt="img" data-value="{{ img.id }}">
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rail-info" data-from="from" data-photos="photos">
+                        <div class="img-title-holder">
+                            <h3 class="img-title" style="bottom: 0; opacity: 1;">Photo Story</h3>
+                        </div>
+                        <span class="separator white"></span>
+                        <p class="img-desc" style="top: 0; opacity: 1;"></p>
+                        <ul id="rail-source" class="rail-hidden">
+                            {% for img in image_list %}
+                                <li id="{{ img.id }}">{{ img.story }}</li>
+                            {% endfor %}
+                        </ul>
+                        <div id="rail-buttons">
+                            <a href="javascript:void(0);" class="rail-prev dJAX_internal">
+                                <span><i class="el el-chevron-left" style="padding-right:3px;padding-top: 10px;"></i></span></a>
+                            <a href="javascript:void(0);" class="rail-next dJAX_internal">
+                                <span><i class="el el-chevron-right" style="padding-left:3px;padding-top: 10px"></i></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});
+</script>
+</body>
+
+</html>

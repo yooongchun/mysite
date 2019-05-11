@@ -1,0 +1,59 @@
+<!--文章页脚本：显示文章访问信息-->
+
+<small class="article-card-footer-item">
+    <a title="发布时间" data-toggle="tooltip">
+        <i class="el el-time icon-common"></i>&nbsp;
+        {{ article.pub_date }}
+    </a>
+</small>
+<small class="article-card-footer-item">
+    <a title="作者" data-toggle="tooltip">
+        <i class="el el-adult icon-common"></i>&nbsp;
+        {{ article.author }}
+    </a>
+</small>
+<small class="article-card-footer-item">
+    <a title="阅读量" data-toggle="tooltip">
+        <i class="el el-eye-open icon-common"></i>&nbsp;
+        {{ article.read_num }}
+    </a>
+</small>
+<small class="article-card-footer-item">
+    <a title="评论数" data-toggle="tooltip">
+        <i class="el el-comment icon-common"></i>&nbsp;
+        {{ article.comment_num }}
+    </a>
+</small>
+<small class="article-card-footer-item approval-item" data-value="{{ article.id }}">
+    <a title="点赞数" data-toggle="tooltip">
+        <i class="el el-thumbs-up icon-common "></i>&nbsp;
+        <span class="approval-num">{{ article.approval_num }}</span>
+    </a>
+</small>
+<small class="article-card-footer-item">
+    <a href="{% url 'blog:article_category' article.category.category 1 %}" data-toggle="tooltip" title="分类">
+        <i class="el el-th-list icon-common"></i>&nbsp;
+        {{ article.category.category }}
+    </a>
+</small>
+<small class="article-card-footer-item">
+    <a data-toggle="tooltip" title="状态">
+        {% if article.password == default_password %}
+            <i class="el el-unlock icon-common"></i>&nbsp;
+            <span>公开</span>
+        {% else %}
+            <i class="el el-lock icon-common"></i>&nbsp;
+            <span>加密</span>
+        {% endif %}
+
+    </a>
+</small>
+<small class="article-card-footer-item">
+    <i class="el el-tag icon-common"></i>&nbsp;
+    {% for t in article.tags.all %}
+        <a title="标签 {{ t.tag }}" data-toggle="tooltip" href="{% url 'blog:article_tag' t.tag 1 %}">
+            <span class="badge badge-pill badge-info article-tag">{{ t.tag }}</span>
+        </a>
+
+    {% endfor %}
+</small>

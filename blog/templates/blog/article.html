@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    <title data-value="{{ category }}">{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="width: 90%" onload="change_current_category()">
+        {% for article in article_cat_or_tag_list %}
+            {% include "blog/article-list.html" %}
+        {% endfor %}
+        <!--分页开始-->
+        {% include "blog/pagination.html" %}
+        <!--分页结束-->
+    </div>
+{% endblock %}

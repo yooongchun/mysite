@@ -1,0 +1,60 @@
+<div class="card" style="background-color: transparent;margin-top: 20px;">
+    <div class="card-body">
+        <div class="row">
+            {% for resource in resource_list %}
+                <div class="col-sm-6 resource">
+                    <div class="card" style="background-color: transparent;margin-top: 20px">
+                        <div class="card-header">
+                            <h6 class="text-primary font-weight-bold"
+                                style="margin-top: 2px">{{ resource.title }}</h6>
+                            <small class="text-secondary" style="opacity: 0.5;">
+                                <i class="el el-user icon-common" title="作者" data-toggle="tooltip"></i>&nbsp;
+                                {{ resource.user.username }}&nbsp;&nbsp;
+                                <i class="el el-time icon-common" title="发布时间" data-toggle="tooltip"></i>&nbsp;
+                                {{ resource.pub_date }}
+                                &nbsp;&nbsp;
+                                <i class="el el-folder-close icon-common" title="资源类别" data-toggle="tooltip"></i>
+                                &nbsp;
+                                <span>{{ resource.category }}</span>&nbsp;&nbsp;
+                                <i class="el el-download icon-common" title="下载量" data-toggle="tooltip"></i>
+                                &nbsp;
+                                <span>{{ resource.download_num }}</span>
+
+                            </small>
+                        </div>
+                        <div class="card-body"
+                             style="height: 200px;overflow: auto;background-color: rgba(200,200,200,0.2);opacity: 0.8;">
+                            <div class="row">
+                                <div class="col-md-5"><img src="{{ resource.cover.url }}" alt="image"
+                                                           width="150px" height="150px">
+                                </div>
+                                <div class="col-md-7 scroll-resource-text text-success">
+                                    {{ resource.content }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="padding: 0;">
+                            <div class="input-group mb-3">
+                                <input type="password" class="form-control input-group-sm resource-password"
+                                        {% if resource.password == default_password %}
+                                       placeholder="免密访问" disabled="disabled">
+                                        {% else %}
+                                            placeholder="请输入访问密码">
+                                        {% endif %}
+                                <div class="input-group-append">
+                                    <a href="javascript:void(0);" data-value="{{ resource.id }}"
+                                       class="input-group-text download-addr">下载地址</a>
+                                </div>
+                            </div>
+                            <div class="alert alert-danger alert-dismissable response-resource-info-box"
+                                 style="display: none;z-index: 2000;">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong class="response-response-info"></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

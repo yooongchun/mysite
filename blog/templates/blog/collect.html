@@ -1,0 +1,9 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    <title data-value="{{ category }}">{{ title }}</title>
+{% endblock %}
+{% block content %}
+    <div class="container" style="width: 100%" onload="change_current_category()">
+        {% include "blog/collect-list-display.html" %}
+    </div>
+{% endblock %}

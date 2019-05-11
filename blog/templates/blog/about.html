@@ -1,0 +1,170 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}
+    <title data-value="{{ category }}">{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <div id="about-page-container" style="width: 90%">
+        <div class="card mx-auto">
+            <div class="card-body">
+                <div class="row header">
+                    <img src="{% static 'blog/images/icon.png' %}" alt="头像" class="rounded-circle mx-auto"
+                         width="50px"
+                         height="50px" style="background-color: lightblue">
+                </div>
+                <div class="row" style="margin-top: 20px">
+                    <h5 class="mx-auto text-primary font-weight-bold">{{ description }}</h5>
+                </div>
+                <!--个人信息-->
+                <div class="row body" style="margin-top: 100px">
+                    <div class="col-sm-6">
+                        <div class="card education-bg">
+                            <div class="card-body education">
+                                <span class="row">
+                                    <h5 class="mx-auto text-warning font-weight-bold">{{ name }}</h5>
+                                </span>
+                                <span class="row">
+                                    <small class="mx-auto text-info font-weight-bold">{{ birth_year }}&nbsp;&middot;&nbsp;{{ birth_month }}&nbsp;&middot;&nbsp;{{ birth_day }}</small>
+                                </span>
+                                <span class="row" style="margin-top: 10px">
+                                    <h5 class="mx-auto text-warning font-weight-bold">{{ education_school }}&middot;{{ education_degree }}</h5>
+                                </span>
+                                <span class="row">
+                                    <small class="mx-auto text-info font-weight-bold">{{ education_start_year }}.{{ education_start_month }}&nbsp;&dash;&nbsp;{{ education_finish_year }}.{{ education_finish_month }}</small>
+                                </span>
+                                <span class="row" style="margin-top: 10px">
+                                    <h5 class="mx-auto text-warning font-weight-bold">{{ education_profession }}&middot;{{ education_profession_degree }}</h5>
+                                </span>
+                                <span class="row">
+                                    <small class="mx-auto text-info font-weight-bold">{{ education_profession_start_year }}.{{ education_profession_start_month }}&nbsp;&dash;&nbsp;{{ education_profession_finish_year }}.{{ education_profession_finish_month }}</small>
+                                </span>
+
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card skill-bg">
+                            <div class="card-body skill">
+                                <div class="row">
+                                    <h5 class="mx-auto text-warning font-weight-bold">我的技能</h5>
+                                </div>
+                                <div class="progress" style="height: 14px">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                         style="width: 90%">Python&nbsp;&middot;&nbsp;Matlab&nbsp;&middot;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="progress" style="height: 14px;margin-top: 15px">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                         style="width: 75%">UG&nbsp;&middot;&nbsp;Photoshop
+                                    </div>
+                                </div>
+
+                                <div class="progress" style="height: 14px;margin-top: 15px">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                                         style="width: 45%">LaTex&nbsp;&middot;&nbsp;Java&nbsp;&middot;&nbsp;C++&nbsp;&middot;&nbsp;Javascript
+                                    </div>
+                                </div>
+                                <div class="progress" style="height: 14px;margin-top: 15px">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                         style="width: 35%">Linux&nbsp;&middot;&nbsp;Mysql
+                                    </div>
+                                </div>
+                                <div class="progress" style="height: 14px;margin-top: 15px">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary"
+                                         style="width: 60%">Django&nbsp;&middot;&nbsp;HTML&nbsp;&middot;&nbsp;CSS
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--站点信息-->
+                <div class="row body" style="margin-top: 50px">
+                    <div class="col-sm-6">
+                        <div class="card willing-bg">
+                            <div class="card-body willing">
+                                <span class="row" style="">
+                                    <h5 class="mx-auto text-warning font-weight-bold">人生是一场旅行</h5>
+                                </span>
+                                <span class="row">
+                                    <small class="mx-auto text-success font-weight-bold">在前行的路上&nbsp;&middot;&nbsp;遇见最美的你</small>
+                                </span>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <span class="row" style="margin-top: 10px">
+                                            <small class="mx-auto text-success font-weight-bold">你是第[&nbsp;]位来这里的小伙伴:</small>
+                                        </span>
+                                        <span class="row mx-auto" style="margin-top: 40px;width: 150px;">
+                                            <table class="table table-sm table-bordered rounded text-danger"
+                                                   style="font-family:NUM;">
+                                                <tbody>
+                                                <tr><td><h3 style="margin:0">
+                                                    {% for num in visit_rank %}
+                                                        {{ num }}
+                                                    {% endfor %}
+                                                    <br/>&nbsp;
+                                                </h3></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span class="row" style="margin-top: 10px">
+                                            <small class="text-success font-weight-bold float-left">本站已运行:</small>
+                                        </span>
+
+                                        <span class="row" style="margin-top: 40px;width: 145px;">
+                                            <table class="table table-sm table-bordered rounded text-danger"
+                                                   style="font-family:NUM;">
+                                                <tbody><tr><td><h4>
+                                                    <span class="years">0</span><span>年</span>
+                                                    <span class="months">0</span><span>月</span>
+                                                    <span class="days">0</span><span>日</span>
+                                                    <span class="hours">0</span><span>:</span>
+                                                    <span class="minutes">0</span><span>:</span>
+                                                    <span class="seconds">0</span>
+                                            </h4></td></tr></tbody>
+                                            </table>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card site-bg" style="height: 230px; width: 100%">
+                            <div class="row">
+                                <h5 class="mx-auto text-warning font-weight-bold">项目合作</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div style="margin-left:10px">
+                                        <small class="text-warning font-weight-bold" style="opacity: 0.8">
+                                            承接项目，范围包括但不限于爬虫、Web开发、机器学习、数据建模、UG工程建模、PDF数据批提取等项目，如有意向合作可以加我微信！
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <img src="https://fanyuzone.oss-cn-beijing.aliyuncs.com/image/wechat_cool_style.jpg"
+                                         width="150px" height="150px" alt="wechat" class="mx-auto rounded"
+                                         style="margin-top: 20px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--地图-->
+                <div class="row body" style="margin: 50px 0 5px 5px;">
+                    <div class="card site-map" style="height:600px;width: 100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

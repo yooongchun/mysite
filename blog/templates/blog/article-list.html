@@ -1,0 +1,41 @@
+<!--文章列表模板-->
+<div class="card article-card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-2">
+                <img src="{{ article.cover.url }}" style="max-width:100px;" alt="logo"
+                     class="article-card-image rounded ">
+            </div>
+            <div class="col-sm-10">
+                <span class="title">
+                    {% if article.password == default_password %}
+                        <a href="{% url "blog:detail" article.id %}">
+                    {% else %}
+                        <a href="javascript:void(0);" class="article-input-password" data-toggle="popover"
+                           data-placement="top" title="付费文章，输入密码："
+                           data-content='<div class="password-box">
+                                            <form action="{% url 'blog:detail' article.id %}" method="get">
+                                                <div class="input-group mb-3 input-group-sm">
+                                                    <input type="password" class="form-control" name="psd" placeholder="输入密码或联系作者获取">
+                                                    <div class="input-group-append">
+                                                        <button type="submit" class="btn btn-sm btn-primary">确定</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>'>
+                    {% endif %}
+                    <h5>{{ article.title }}</h5>
+                    </a>
+                </span>
+                <div class="article-card-abstract">
+                    <small>
+                        {{ article.digest }}
+                    </small>
+                </div>
+                <div class="row article-card-footer">
+                    {% include "blog/article-footer.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

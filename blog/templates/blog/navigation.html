@@ -1,0 +1,64 @@
+{% load static %}
+<nav class="navbar navbar-expand-sm fixed-top bg-light row" style="background: linear-gradient(45deg,#ffffaa,#D1EDFF)">
+    <div class="col-md-3 row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-9" id="scroll-message-border">
+            <!--滚动消息-->
+            <div class="row">
+                <i class="el el-speaker icon-common" id="icon-nav-scroll-message"></i>
+                <div id="scroll-message">
+                    <ul id="info-list">
+                        {% for info in info_list %}
+                            <li data-toggle="tooltip" title="通知信息">
+                                {{ info.info }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 row ">
+        <ul class="nav nav-tabs justify-content-end">
+            <li class="nav-item font-weight-bold ">
+                <a class="nav-link active index-page nav-category" href="{% url 'blog:index' %}">首页</a>
+            </li>
+            {% for category in category_list %}
+                <li class="nav-item font-weight-bold nav-category">
+                    {% if category.category == '关于' %}
+                        <a class="nav-link nav-category"
+                           href="{% url 'blog:about' %}">{{ category.category }}</a>
+                    {% elif category.category == '资源' %}
+                        <a class="nav-link nav-category"
+                           href="{% url 'blog:resource' 1 %}">{{ category.category }}</a>
+                    {% elif category.category == '留言' %}
+                        <a class="nav-link nav-category"
+                           href="{% url 'blog:message' 1 %}">{{ category.category }}</a>
+                    {% elif category.category == '赞助' %}
+                        <a class="nav-link nav-category"
+                           href="{% url 'blog:sponsor' %}">{{ category.category }}</a>
+                    {% elif category.category == '摄影' %}
+                        <a class="nav-link nav-category"
+                           href="{% url 'blog:photograph_list' %}">{{ category.category }}</a>
+                    {% else %}
+                        <a class="nav-link nav-category"
+                           href="{% url 'blog:article_category' category.category 1 %}">{{ category.category }}</a>
+                    {% endif %}
+                </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-3 row nav-search">
+        <form class="form-inline input-group-sm" action="{% url "blog:search" 1 %}" method="get">
+            <input class="form-control " type="search" placeholder="Search" name="keywords">
+            <div class="input-group-append">
+                <a href="javascript:void(0);">
+                    <button type="submit" class="btn-upload"><i class="el el-search icon-common"></i>
+                    </button>
+                </a>
+            </div>
+        </form>
+    </div>
+</nav>

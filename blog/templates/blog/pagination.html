@@ -1,0 +1,103 @@
+<div class="pagination-section mx-auto" style="margin-top: 20px">
+    <nav class="pagination-outer" aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item">
+                {% if pre_page >= 1 %}
+                    {% if type == 'category' %}
+                        <a href="{% url "blog:article_category" title pre_page %}" class="page-link"
+                           aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    {% elif type == 'tag' %}
+                        <a href="{% url "blog:article_tag" title pre_page %}" class="page-link"
+                           aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    {% elif type == 'search' %}
+                        <a href="{% url "blog:search" pre_page %}" class="page-link"
+                           aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    {% elif type == 'message' %}
+                        <a href="{% url "blog:message" pre_page %}" class="page-link"
+                           aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    {% elif type == 'archive' %}
+                        <a href="{% url "blog:archive" year month pre_page %}" class="page-link"
+                           aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    {% elif type == 'resource' %}
+                        <a href="{% url "blog:resource" pre_page %}" class="page-link"
+                           aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    {% endif %}
+                {% else %}
+                    <a href="javascript:void(0);" class="page-link disabled"
+                       aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                {% endif %}
+            </li>
+            {% for i in page_list %}
+                {% if type == 'category' %}
+                    {% if page == i %}
+                        <li class="page-item active"><a class="page-link active" href="javascript:void(0);">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="{% url "blog:article_category" title i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% elif type == 'tag' %}
+                    {% if page == i %}
+                        <li class="page-item active"><a class="page-link active" href="javascript:void(0);">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="{% url "blog:article_tag" title i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% elif type == 'search' %}
+                    {% if page == i %}
+                        <li class="page-item active"><a class="page-link active" href="javascript:void(0);">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="{% url "blog:search" i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% elif type == 'message' %}
+                    {% if page == i %}
+                        <li class="page-item active"><a class="page-link active" href="javascript:void(0);">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="{% url "blog:message" i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% elif type == 'archive' %}
+                    {% if page == i %}
+                        <li class="page-item active"><a class="page-link active" href="javascript:void(0);">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="{% url "blog:archive" year month i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% elif type == 'resource' %}
+                    {% if page == i %}
+                        <li class="page-item active"><a class="page-link active" href="javascript:void(0);">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="{% url "blog:resource" i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <li class="page-item">
+                {% if next_page <= page_num %}
+                    {% if type == 'category' %}
+                        <a href="{% url "blog:article_category" title next_page %}" class="page-link"
+                           aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% elif type == 'tag' %}
+                        <a href="{% url "blog:article_tag" title next_page %}" class="page-link"
+                           aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% elif type == 'search' %}
+                        <a href="{% url "blog:search" next_page %}" class="page-link"
+                           aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% elif type == 'message' %}
+                        <a href="{% url "blog:message" next_page %}" class="page-link"
+                           aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% elif type == 'archive' %}
+                        <a href="{% url "blog:archive" year month next_page %}" class="page-link"
+                           aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% elif type == 'resource' %}
+                        <a href="{% url "blog:resource" next_page %}" class="page-link"
+                           aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% endif %}
+                {% else %}
+                    <a href="javascript:void(0);" class="page-link disabled"
+                       aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+</div>

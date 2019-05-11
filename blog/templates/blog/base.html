@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?93ae472721d92bdfd8d7d1b5f193f0fe";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?28d9e3a58053d42172ec6edd45f159c2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?679ab9256c7c04270c73099a3f4abe06";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?da8be3ed2071ca4e5390c05c00dd29ee";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<head>
+    {% load static %}
+    {% block title %}
+        <title>永春 -个人博客</title>
+    {% endblock %}
+    {% block meta %}
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Python，爬虫，算法，机器学习"/>
+        <meta name="description" content="一个个人网站，专注IT技术分享及记录生活"/>
+    {% endblock %}
+    <meta name="author" content="yooongchun"/>
+    <meta name="baidu-site-verification" content="ebCsifD2NR"/>
+    <meta name="google-site-verification" content="m68ZiUidOg_fjF9GGh5neTLa5psPliMoEG2OlFlk-fg"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+    <!--Bootstrap4-->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css"/>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <!--网站图标：elusive-->
+    <link rel="stylesheet" href="{% static 'blog/css/elusive-icons.min.css' %}"/>
+    <link rel="icon" href="{% static "blog/images/favicon.ico" %}"/>
+
+    <!--网站地图可视化：echarts-->
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+    <script src="https://api.map.baidu.com/api?v=2.0&ak=x2ZTlRkWM2FYoQbvGOufPnFK3Fx4vFR1"></script>
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+    <script src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+
+    <!--typora主题字体-->
+    <link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext'
+          rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="{% static 'blog/css/typora_style.css' %}"/>
+    <!--关于页面-->
+    <script src="{% static 'blog/js/site-map-figure.js' %}"></script>
+    <!--资源页面-->
+    <script src="{% static 'blog/js/resource.js' %}"></script>
+    <!--JS-->
+    <script src="{% static "blog/js/nav-loop-message.js" %}"></script>
+    <script src="{% static "blog/js/approve.js" %}"></script>
+    <script src="{% static "blog/js/comment.js" %}"></script>
+    <script src="{% static "blog/js/public.js" %}"></script>
+    <script src="{% static "blog/js/message.js" %}"></script>
+    <!--CSS-->
+    <link rel="stylesheet" href="{% static 'blog/css/public.css' %}"/>
+
+    <!--editor.md-->
+    <link rel="stylesheet" href="{% static 'blog/css/editormd.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'blog/lib/codemirror/codemirror.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/lib/codemirror/addon/dialog/dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/lib/codemirror/addon/search/matchesonscrollbar.css' %}">
+    <script src="{% static "blog/lib/marked.min.js" %}"></script>
+    <script src="{% static "blog/lib/prettify.min.js" %}"></script>
+    <script src="{% static "blog/lib/raphael.min.js" %}"></script>
+    <script src="{% static "blog/lib/underscore.min.js" %}"></script>
+    <script src="{% static "blog/lib/sequence-diagram.min.js" %}"></script>
+    <script src="{% static "blog/lib/flowchart.min.js" %}"></script>
+    <script src="{% static "blog/lib/jquery.flowchart.min.js" %}"></script>
+    <script src="{% static "blog/js/editormd.min.js" %}"></script>
+
+    {% block  extra %}{% endblock %}
+</head>
+<body class="bg container-fluid" id="bb" style="width: 100%;">
+<!--导航开始-->
+{% include "blog/navigation.html" %}
+<!--导航结束-->
+<!--主体框架开始-->
+<div class="row main-box" style="margin-top: 100px">
+    <div id='left-container' class="col-sm-9">
+        <!--左侧开始-->
+        {% block content %}
+        {% endblock %}
+        <!--左侧结束-->
+    </div>
+    <div id="base-right-side" class=" col-sm-3">
+        <!--右侧开始-->
+        {% block right %}
+            {% include "blog/right.html" %}
+        {% endblock %}
+        <!--右侧结束-->
+    </div>
+</div>
+<!--主题框架结束-->
+<!--底部开始-->
+{% block footer %}
+    {% include "blog/footer.html" %}
+{% endblock %}
+<!--底部结束-->
+<script>
+    $.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});
+</script>
+</body>
+</html>

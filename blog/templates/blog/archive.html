@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    <title data-value="{{ category }}">{{ archive }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="width: 90%">
+        {% for article in article_archive_list %}
+            {% include "blog/article-list.html" %}
+        {% endfor %}
+        <!--分页开始-->
+        {% include "blog/pagination.html" %}
+        <!--分页结束-->
+    </div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    <title data-value="{{ category }}">{{ article.title }}</title>
+{% endblock %}
+{% load static %}
+{% block content %}
+    <div class="container" style="width: 90%">
+        <div class="card article-header">
+            <div class="card-body mx-auto">
+                <h4 class=" text-primary font-weight-bold">{{ article.title }}</h4>
+            </div>
+            <div class="mx-auto">{% include "blog/article-footer.html" %}</div>
+            <div class="alert alert-danger alert-dismissable response-approval-info-box"
+                 style="display: none;z-index: 2000;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong class="response-approval-info"></strong>
+            </div>
+        </div>
+        <div class="card article-detail" style="margin-top:30px">
+            <div class="card-body article-content typora-export os-windows" style="margin: 0;padding: 0">
+                {% if article.render_with_markdown %}
+                    <div style="margin:0" id="editormd-box">
+                        <textarea id="editormd" style="display:none;">{{ article.content|safe }}</textarea>
+                    </div>
+                {% else %}
+                    {{ article.content|safe }}
+                {% endif %}
+            </div>
+            <div class="article-detail-footer">
+                {% include "blog/article-footer.html" %}
+            </div>
+        </div>
+        <div class="article-footer" style="margin-top: 50px">
+            <div class="comment-box" style="">
+                {% include "blog/comment.html" %}
+            </div>
+            <div class="comment-display-list" id="comment-display-list">
+                {% include "blog/comment-display.html" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
