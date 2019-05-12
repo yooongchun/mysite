@@ -287,6 +287,3 @@ class CZDataDownloadList(models.Model):
 
     def __str__(self):
         return "下载时间"
-
-
-

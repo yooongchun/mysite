@@ -46,16 +46,16 @@ class PARAS:
         self.DETAIL_PAGE_TITLE = '文章详情'
 
         self.IP_DATABASE_FILENAME = 'ip_list.dat'  # 纯真ip数据库保存文件名
-
+        self.BAIDU_AK = '***'  # 百度地图使用授权AK
         self.APPROVAL_SUCCESS_RETURN_INFO = '太棒了，你赞了这篇文章~'  # 点赞行为提示信息
         self.APPROVAL_REPEAT_RETURN_INFO = '你已经点过赞啦~'
         self.COMMENT_SUCCESS_RETURN_INFO = '评论成功'  # 评论信息提示
         self.MESSAGE_SUCCESS_RETURN_INFO = '留言成功'  # 留言信息提示
         self.UNKNOWN_RETURN_INFO = '不知道该干嘛~'  # 未知信息提示
 
-        self.EMAIL_KEY = 'meeuskiyxnuxdcfj'  # QQ邮箱
-        self.EMAIL_SEND_ACCOUNT = 'yooongchun@foxmail.com'
-        self.EMAIL_RECEIVE_ACCOUNT = 'yooongchun@foxmail.com'
+        self.EMAIL_KEY = '****'  # QQ邮箱
+        self.EMAIL_SEND_ACCOUNT = '******'
+        self.EMAIL_RECEIVE_ACCOUNT = '*****'
         # 关于页面个人信息展示
         self.ABOUT_PAGE_AUTHOR_INFO = {'name': '查永春',
                                        'description': '这是一名想去看遍世界的技术宅！',
@@ -352,7 +352,7 @@ def fetch_cz_ip_database():
 def get_coordination(city):
     """根据地名获得经纬度信息"""
     url = 'http://api.map.baidu.com/geocoder/v2/'
-    ak = 'x2ZTlRkWM2FYoQbvGOufPnFK3Fx4vFR1'
+    ak = PARAS().BAIDU_AK
     try:
         res = requests.get(url=url, params={"address": city, "output": "json", "ak": ak}, timeout=5)
         text = res.json()

@@ -62,9 +62,11 @@
         padding-left: 20px;
         padding-right: 20px;
     }
+
     .CodeMirror-sizer {
         margin-left: 0 !important;
     }
+
     .CodeMirror-gutters {
         display: none !important;
     }
@@ -111,7 +113,7 @@ input[type="checkbox"], input[type="radio"] {
     position: relative;
 }
 
-.typora-export h1,.typora-export h2,.typora-export h3,.typora-export h4,.typora-export h5,.typora-export h6 {
+.typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 {
     break-after: avoid-page;
     break-inside: avoid;
     orphans: 2;
@@ -145,7 +147,7 @@ p {
     font-size: 1rem;
 }
 
-.md-math-block, .md-rawblock,.typora-export h1,.typora-export h2,.typora-export h3,.typora-export h4,.typora-export h5,.typora-export h6, p {
+.md-math-block, .md-rawblock, .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6, p {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
@@ -559,7 +561,7 @@ pre.md-meta-block {
     content: ".";
 }
 
-.typora-export code,.typora-export  pre, .typora-exportsamp, .typora-exporttt {
+.typora-export code, .typora-export pre, .typora-exportsamp, .typora-exporttt {
     font-family: var(--monospace);
 }
 
@@ -1067,7 +1069,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
     margin-top: 30px;
 }
 
-.typora-export h1, .typora-export h2,.typora-export h3,.typora-export h4,.typora-export h5,.typora-export h6 {
+.typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 {
     position: relative;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -1158,7 +1160,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
     display: inline-block;
 }
 
-.typora-export ul,.typora-export  ol {
+.typora-export ul, .typora-export ol {
     padding-left: 30px;
 }
 

@@ -44,7 +44,6 @@ $(document).ready(function () {
             table: true,
             flowChart: true,  // 默认不解析
             sequenceDiagram: true,  // 默认不解析
-            codeFold: true,
         });
 
         //监听屏幕滚动

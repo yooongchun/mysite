@@ -13,6 +13,98 @@
 - 无需注册登录账号，直接留言、评论
 - 留言、评论消息邮件通知
 
+### 安装软件
+
+本地部署需要安装`Python3`和`Mysql`数据库。
+
+- 安装`Python3.6`：https://www.python.org/
+
+- 安装`Mysql`数据库：https://www.mysql.com/
+
+- 安装`Python`模块(`pip3`命令)
+
+  必要的模块包括：`pymysql`、`django-mdeditor`、`django`、`jieba`、`qqwry-py3`、`pillow`、`xadmin`
+
+### 下载本站代码项目
+
+- 方式一：直接通过git命令下载（windows下需要安装git软件）：
+
+  ```bash
+  $ git clone https://github.com/yooongchun/mysite.git
+  ```
+
+- 方式二：直接从github下载：https://github.com/yooongchun/mysite
+
+### 项目简要解释
+
+项目结构如下：
+
+```
+mysite
+	-blog //保存该项目的所有代码
+		-migrations //数据库迁移文件
+		-static //静态文件，包括images、js、css等
+		-templates //html模板文件
+		-adminx.py //xadmin后台
+		-apps.py //网站应用注册
+		-models.py //数据库model文件
+		-tests.py //测试
+		-urls.py //路由转发
+		-utils.py //功能函数
+		-views.py //视图：路由转发
+		
+	-mysite //保存全局的设置、配置等信息
+		-settings.py //配置全局参数
+		-urls.py //路由转发终端
+		-wsgi.py //wsgi，不用管
+		
+	-templates //全局的html模板
+	-manage.py //django项目管理程序
+	-README.md //项目使用说明
+```
+
+我们对网站的修改操作几乎都在blog目录下完成，仅有部分全局设置需要在mysite目录下配置
+
+### 快速使用
+
+安装好相应软件后（python3，mysql及相应python模块），即可通过最简单的配置来使用这个网站：
+
+第一步：创建数据库
+
+```shell
+mysql -uroot -p
+CREATE DATABASE blog;
+```
+
+第二步：在`mysite/mysite/settings.py` 文件中配置数据库
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blog', # 这里配置你的数据库名称
+        'USER': 'root',# 这里配置你的数据库用户名
+        'PASSWORD': '****',# 这里写你的数据库密码
+        'HOST': '127.0.0.1',
+        'POST': '3306',
+    }
+}
+```
+
+第三步：迁移数据库，打开windows命令行切换到mysite目录
+
+```shell
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
+
+第四步：运行
+
+```shell
+python3 manage.py runserver 127.0.0.1:8000
+```
+
+
 ### 技术概要
 
 完成本站建设，你需要以下技能：
@@ -162,6 +254,9 @@ pip3 install django-mdeditor
 
 [1] 后台删除数据库中文章后归档不更新
 
+[2] django-mdeditor.js 渲染后代码无缩进
+
+[3] typora_style.css 渲染后代码框不可变
 
 
 
