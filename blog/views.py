@@ -1,12 +1,53 @@
 import threading
 from random import choice
-
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.views.generic import View
 
 from blog import utils
-from blog.models import Blog, Comment, Icon, Visitor, Message, Resource, PhotographyImageList, CommonDataCache
+from blog.models import User, Blog, Comment, Icon, Visitor, Message, Resource, PhotographyImageList, CommonDataCache
+
+
+class LoginCheck(View):
+    """用户登录验证"""
+
+    def get(self, request):
+        return HttpResponse("不知道该干嘛哎~~")
+
+    def post(self, request):
+        username = request.POST["user_name"]
+        password = request.POST["password"]
+        if User.objects.filter(username=username).count()!=1:
+            return HttpResponse("user-not-exists")
+        user = authenticate(username=username, password=password)
+        if user:
+            return HttpResponse("200|"+user.icon.url)
+        else:
+            return HttpResponse("404")
+
+
+class Register(View):
+    """用户注册账号"""
+
+    def get(self, request):
+        return HttpResponse("不知道该干嘛~~")
+
+    def post(self, request):
+        username = request.POST["username"]
+        password = request.POST["password"]
+        email = request.POST["email"]
+        url=request.POST["icon"]
+        if User.objects.filter(username=username).count() > 0:
+            return HttpResponse("user-exists")
+        try:
+            icon=Icon.objects.get(url=url)    
+            User.objects.create_user(
+                username=username, password=password, email=email,icon=icon).save()
+            return HttpResponse("200")
+        except:
+            return HttpResponse("create-user-error")
 
 
 class Index(View):
@@ -21,9 +62,9 @@ class Index(View):
 
         # 获取特定页面的信息
         article_latest_list = Blog.objects.all().filter(display=True).order_by('-pub_date')[
-                              :utils.PARAS().LATEST_BLOG_NUM]  # 最新文章
+            :utils.PARAS().LATEST_BLOG_NUM]  # 最新文章
         article_popular_list = Blog.objects.all().filter(display=True).order_by('-read_num')[
-                               :utils.PARAS().POPULAR_BLOG_NUM]  # 最热门文章
+            :utils.PARAS().POPULAR_BLOG_NUM]  # 最热门文章
         common_return_dict['article_popular_list'] = article_popular_list
         common_return_dict['article_latest_list'] = article_latest_list
         common_return_dict['title'] = utils.PARAS().HOME_PAGE_TITLE
@@ -66,13 +107,15 @@ class Articles(View):
         category_name_list = [category.category for category in category_list]
         # 分类转发
         if name in category_name_list:
-            article_category_list = Blog.objects.filter(Q(category__category=name), Q(display=True))
+            article_category_list = Blog.objects.filter(
+                Q(category__category=name), Q(display=True))
             article_cat_or_tag_list = article_category_list
             type = 'category'
             title = name
         # 标签转发
         elif name in tag_name_list:
-            article_tag_list = Blog.objects.filter(Q(tags__tag=name), Q(display=True))
+            article_tag_list = Blog.objects.filter(
+                Q(tags__tag=name), Q(display=True))
             article_cat_or_tag_list = article_tag_list
             type = 'tag'
             title = name
@@ -97,7 +140,8 @@ class Articles(View):
         common_return_dict['type'] = type
         common_return_dict['category'] = name
         common_return_dict['page_num'] = int(cur_num / num) + last_page
-        common_return_dict['page_list'] = [i + 1 for i in range(int(cur_num / num) + last_page)]
+        common_return_dict['page_list'] = [
+            i + 1 for i in range(int(cur_num / num) + last_page)]
         return render(request, 'blog/article.html', common_return_dict)
 
 
@@ -130,7 +174,8 @@ class Archive(View):
         common_return_dict['year'] = year
         common_return_dict['month'] = month
         common_return_dict['page_num'] = int(cur_num / num) + last_page
-        common_return_dict['page_list'] = [i + 1 for i in range(int(cur_num / num) + last_page)]
+        common_return_dict['page_list'] = [
+            i + 1 for i in range(int(cur_num / num) + last_page)]
         return render(request, 'blog/archive.html', common_return_dict)
 
 
@@ -153,7 +198,8 @@ class MessageInfo(View):
             start = (page - 1) * num
             end = page * num if page * num < cur_num else cur_num  # 页面内容
             message_list = message_list[start:end]
-        common_return_dict['image_list'] = [[i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
+        common_return_dict['image_list'] = [
+            [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
         common_return_dict['random_image'] = choice(user_image_list)
         common_return_dict['title'] = '留言'
         common_return_dict['message_list'] = message_list
@@ -163,7 +209,8 @@ class MessageInfo(View):
         common_return_dict['type'] = 'message'
         common_return_dict['category'] = '留言'
         common_return_dict['page_num'] = int(cur_num / num) + last_page
-        common_return_dict['page_list'] = [i + 1 for i in range(int(cur_num / num) + last_page)]
+        common_return_dict['page_list'] = [
+            i + 1 for i in range(int(cur_num / num) + last_page)]
         return render(request, 'blog/message.html', common_return_dict)
 
     def post(self, request, page):
@@ -198,7 +245,8 @@ class Search(View):
         common_return_dict['pre_page'] = page - 1
         common_return_dict['type'] = 'search'
         common_return_dict['page_num'] = int(cur_num / num) + last_page
-        common_return_dict['page_list'] = [i + 1 for i in range(int(cur_num / num) + last_page)]
+        common_return_dict['page_list'] = [
+            i + 1 for i in range(int(cur_num / num) + last_page)]
         return render(request, 'blog/search.html', common_return_dict)
 
 
@@ -221,7 +269,8 @@ class Detail(View):
         group_comment_dict = utils.group_comment(comment_list)
         common_return_dict['article'] = article
         common_return_dict['group_comment_dict'] = group_comment_dict
-        common_return_dict['image_list'] = [[i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
+        common_return_dict['image_list'] = [
+            [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
         common_return_dict['category'] = article.category.category
         common_return_dict['random_image'] = choice(user_image_list)
 
@@ -260,7 +309,8 @@ class ResourceInfo(View):
             start = (page - 1) * num
             end = page * num if page * num < cur_num else cur_num  # 页面内容
             resource_list = resource_list[start:end]
-        common_return_dict['image_list'] = [[i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
+        common_return_dict['image_list'] = [
+            [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
         common_return_dict['random_image'] = choice(user_image_list)
         common_return_dict['title'] = '资源'
         common_return_dict['resource_list'] = resource_list
@@ -270,7 +320,8 @@ class ResourceInfo(View):
         common_return_dict['type'] = 'resource'
         common_return_dict['category'] = '资源'
         common_return_dict['page_num'] = int(cur_num / num) + last_page
-        common_return_dict['page_list'] = [i + 1 for i in range(int(cur_num / num) + last_page)]
+        common_return_dict['page_list'] = [
+            i + 1 for i in range(int(cur_num / num) + last_page)]
         return render(request, 'blog/resource.html', common_return_dict)
 
     def post(self, request, page):
@@ -331,7 +382,8 @@ class Collection(View):
         common_return_dict['category'] = '专栏'
 
         article_collection_list = dict()
-        article_collection_list_all = Blog.objects.filter(Q(collection__collection=name), Q(display=True))
+        article_collection_list_all = Blog.objects.filter(
+            Q(collection__collection=name), Q(display=True))
 
         # 获取专栏文章列表
         for a in article_collection_list_all:
@@ -344,7 +396,8 @@ class Collection(View):
                 article_collection_list[a.collection_tag.tag_id].append(a)
             else:
                 article_collection_list[a.collection_tag.tag_id] = [a]
-        article_collection_list = sorted(article_collection_list.items(), key=lambda item: item[0])
+        article_collection_list = sorted(
+            article_collection_list.items(), key=lambda item: item[0])
 
         if len(article_collection_list) > 0:
             if pk == 0:
@@ -356,12 +409,14 @@ class Collection(View):
                 if not request.GET.get('psd') or request.GET.get('psd') != article.password:
                     return render(request, 'blog/wrong_password.html', common_return_dict)
             user_image_list = Icon.objects.all()
-            comment_list = Comment.objects.filter(Q(blog=article), Q(display=True))
+            comment_list = Comment.objects.filter(
+                Q(blog=article), Q(display=True))
             group_comment_dict = utils.group_comment(comment_list)
 
             common_return_dict['article'] = article
             common_return_dict['group_comment_dict'] = group_comment_dict
-            common_return_dict['image_list'] = [[i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
+            common_return_dict['image_list'] = [
+                [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
             common_return_dict['category'] = article.category.category
             common_return_dict['random_image'] = choice(user_image_list)
 
@@ -398,7 +453,8 @@ class PhotoGraphList(View):
         common_return_dict['title'] = '永春影展'
         common_return_dict['category'] = '摄影'
 
-        image_list = PhotographyImageList.objects.filter(Q(is_cover=True), Q(display=True))
+        image_list = PhotographyImageList.objects.filter(
+            Q(is_cover=True), Q(display=True))
         common_return_dict['img_list'] = image_list
         return render(request, 'blog/photograph.html', common_return_dict)
 
@@ -412,7 +468,8 @@ class PhotoGraphTag(View):
         # 记录访客
         threading.Thread(target=utils.record_visitor, args=(request,)).start()
         common_return_dict['title'] = collection
-        img_list = PhotographyImageList.objects.filter(Q(collection=collection), Q(display=True))
+        img_list = PhotographyImageList.objects.filter(
+            Q(collection=collection), Q(display=True))
         for i, img in enumerate(img_list):
             if i >= utils.PARAS().MAX_PHOTOGRAPH_NUM:
                 img_list[i].url = utils.PARAS().LOADING_IMG_URL

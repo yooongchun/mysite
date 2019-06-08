@@ -4,7 +4,7 @@ import smtplib
 import threading
 from datetime import datetime
 from email.mime.text import MIMEText
-
+from random import choice
 import jieba
 import requests
 from django.core.exceptions import ObjectDoesNotExist
@@ -86,7 +86,8 @@ def package_article_archive(article_list):
         month = article.pub_date.month
         folder = str(year) + '年' + str(month) + '月'
         try:
-            res[folder] = (folder, year, month, res[folder][3] + 1, res[folder][4] + read_num)
+            res[folder] = (folder, year, month, res[folder]
+                           [3] + 1, res[folder][4] + read_num)
         except KeyError:
             res[folder] = (folder, year, month, 1, read_num)
     return list(res.values())
@@ -123,7 +124,8 @@ def record_visitor(request):
         else:
             city = ''
             coordination = ''
-        Visitor.objects.create(ip=ip, times=1, city=city, coordination=coordination).save()
+        Visitor.objects.create(ip=ip, times=1, city=city,
+                               coordination=coordination).save()
 
 
 def record_approval(request):
@@ -159,7 +161,8 @@ def record_message(request):
     if not user:  # 如果用户不存在则创建
         try:
             im = get_object_or_404(Icon, url=img_url)
-            User.objects.create(username=user_name, email=email, icon=im).save()
+            User.objects.create(username=user_name,
+                                email=email, icon=im).save()
         except:
             return HttpResponse('创建用户出错~')
     # 创建留言
@@ -200,7 +203,8 @@ def record_comment(request, article):
             print(img_url)
             im = get_object_or_404(Icon, url=img_url)
             print(im)
-            User.objects.create(username=user_name, email=email, icon=im).save()
+            User.objects.create(username=user_name,
+                                email=email, icon=im).save()
         except:
             return HttpResponse('创建用户出错~')
     # 创建评论
@@ -238,10 +242,10 @@ def record_comment(request, article):
                 if user_name == 'yooongchun' or user.email == 'yooongchun@foxmail.com':  # 非作者回复，不需通知
                     user_email = parent.user.email
                     threading.Thread(target=send_mail, args=({
-                                                                 'text': '作者yooongchun回复了您对文章[' + parent.blog.title + ']的评论' + '\n您说：[' + parent.content + ']\n作者回复您：[' + content + ']\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://www.yooongchun.cn\n祝您生活愉快！',
-                                                                 'header': '您在永春小站-文章[' + parent.blog.title + ']下的留言有新的回复啦~'
-                                                             }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
-                                                             user_email)).start()
+                        'text': '作者yooongchun回复了您对文章[' + parent.blog.title + ']的评论' + '\n您说：[' + parent.content + ']\n作者回复您：[' + content + ']\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://www.yooongchun.cn\n祝您生活愉快！',
+                        'header': '您在永春小站-文章[' + parent.blog.title + ']下的留言有新的回复啦~'
+                    }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
+                        user_email)).start()
     except:
         pass
     # 更新文章评论数
@@ -266,7 +270,8 @@ def record_friend_link(request):
             if FriendLink.objects.filter(url=url).count() > 0:
                 return 'URL已存在！如需更改，请联系作者！'
             try:
-                FriendLink.objects.create(name=name, url=url, description=description).save()
+                FriendLink.objects.create(
+                    name=name, url=url, description=description).save()
             except:
                 return '添加出错，请检查后重试！'
             try:  # 当有用户申请友情链接时给作者发邮件
@@ -335,7 +340,8 @@ def fetch_cz_ip_database():
         try:  # 发邮件通知
             threading.Thread(target=send_mail,
                              args=(
-                                 {'text': '下载最新版纯真数据库', 'header': '当前纯真数据库下载完成，一切OK!'}, PARAS().EMAIL_SEND_ACCOUNT,
+                                 {'text': '下载最新版纯真数据库', 'header': '当前纯真数据库下载完成，一切OK!'}, PARAS(
+                                 ).EMAIL_SEND_ACCOUNT,
                                  PARAS().EMAIL_KEY, PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
         except:
             pass
@@ -343,7 +349,8 @@ def fetch_cz_ip_database():
         try:  # 发邮件通知
             threading.Thread(target=send_mail,
                              args=(
-                                 {'text': '下载最新版纯真数据库失败', 'header': '当前纯真数据库出错：%s' % e}, PARAS().EMAIL_SEND_ACCOUNT,
+                                 {'text': '下载最新版纯真数据库失败', 'header': '当前纯真数据库出错：%s' % e}, PARAS(
+                                 ).EMAIL_SEND_ACCOUNT,
                                  PARAS().EMAIL_KEY, PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
         except:
             pass
@@ -354,7 +361,8 @@ def get_coordination(city):
     url = 'http://api.map.baidu.com/geocoder/v2/'
     ak = PARAS().BAIDU_AK
     try:
-        res = requests.get(url=url, params={"address": city, "output": "json", "ak": ak}, timeout=5)
+        res = requests.get(
+            url=url, params={"address": city, "output": "json", "ak": ak}, timeout=5)
         text = res.json()
         return str(text['result']['location']['lng']) + ',' + str(text['result']['location']['lat'])
     except:
@@ -369,6 +377,7 @@ def refresh(request):
     tag_list = TagProfile.objects.all()  # 标签
     collection_list = Collection.objects.filter(display=True)  # 专题
     archive_folder_list = ArchiveFolder.objects.all()
+    icons = Icon.objects.all()  # 头像
     # 访问数据
     if CommonDataCache.objects.all().count() < 1:
         CommonDataCache.objects.create().save()
@@ -391,7 +400,9 @@ def refresh(request):
                           'total_approval_num': total_approval_num,
                           'collection_list': collection_list,
                           'archive_folder_list': archive_folder_list,
-                          'default_password': PARAS().BLOG_DEFAULT_PASSWORD}
+                          'default_password': PARAS().BLOG_DEFAULT_PASSWORD,
+                          'image_list': [[i % 10 if i != 0 else 1, img] for i, img in enumerate(icons)],
+                          'random_image': choice(icons), }
     return common_return_dict
 
 
@@ -417,7 +428,8 @@ def refresh_map_data():
 def get_visitor_rank(num):
     """获取访客访问排名"""
     rank = []
-    L = PARAS().VISITOR_RANK_LENGTH if len(str(num)) < PARAS().VISITOR_RANK_LENGTH else len(str(num))
+    L = PARAS().VISITOR_RANK_LENGTH if len(
+        str(num)) < PARAS().VISITOR_RANK_LENGTH else len(str(num))
     for ch in str('{:0>' + str(L) + 'd}').format(num):
         rank.append(int(ch))
     return rank
@@ -469,11 +481,11 @@ def send_message_reply():
             msg.save()
             user_email = msg.user.email
             threading.Thread(target=send_mail, args=({
-                                                         'text': '您' + msg.pub_date.strftime(
-                                                             '%Y年%m月%d日 %H:%M:%S') + '在永春小站的留言：' + msg.content + '\n作者回复：' + msg.reply_content + '\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://yooongchun.cn\n祝您生活愉快！',
-                                                         'header': '您在永春小站的留言有新的回复啦~'
-                                                     }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
-                                                     user_email)).start()
+                'text': '您' + msg.pub_date.strftime(
+                    '%Y年%m月%d日 %H:%M:%S') + '在永春小站的留言：' + msg.content + '\n作者回复：' + msg.reply_content + '\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://yooongchun.cn\n祝您生活愉快！',
+                'header': '您在永春小站的留言有新的回复啦~'
+            }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
+                user_email)).start()
         except:
             pass
 
@@ -539,7 +551,8 @@ def update_tag_data():
     """更新标签阅读量"""
     tag_list = TagProfile.objects.all()
     for tag in tag_list:
-        read_num = Blog.objects.filter(tags__tag__exact=tag).aggregate(read_num=Sum("read_num"))['read_num']
+        read_num = Blog.objects.filter(tags__tag__exact=tag).aggregate(
+            read_num=Sum("read_num"))['read_num']
         if isinstance(read_num, int):
             tag.read_num = read_num
             tag.save()

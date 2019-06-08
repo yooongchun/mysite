@@ -41,26 +41,26 @@
 <head>
     {% load static %}
     {% block title %}
-        <title>永春 -个人博客</title>
+    <title>永春 -个人博客</title>
     {% endblock %}
     {% block meta %}
-        <meta charset="UTF-8">
-        <meta name="keywords" content="Python，爬虫，算法，机器学习"/>
-        <meta name="description" content="一个个人网站，专注IT技术分享及记录生活"/>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="Python，爬虫，算法，机器学习" />
+    <meta name="description" content="一个个人网站，专注IT技术分享及记录生活" />
     {% endblock %}
-    <meta name="author" content="yooongchun"/>
-    <meta name="baidu-site-verification" content="ebCsifD2NR"/>
-    <meta name="google-site-verification" content="m68ZiUidOg_fjF9GGh5neTLa5psPliMoEG2OlFlk-fg"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta name="author" content="yooongchun" />
+    <meta name="baidu-site-verification" content="ebCsifD2NR" />
+    <meta name="google-site-verification" content="m68ZiUidOg_fjF9GGh5neTLa5psPliMoEG2OlFlk-fg" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
     <!--Bootstrap4-->
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css" />
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <!--网站图标：elusive-->
-    <link rel="stylesheet" href="{% static 'blog/css/elusive-icons.min.css' %}"/>
-    <link rel="icon" href="{% static "blog/images/favicon.ico" %}"/>
+    <link rel="stylesheet" href="{% static 'blog/css/elusive-icons.min.css' %}" />
+    <link rel="icon" href="{% static "blog/images/favicon.ico" %}" />
 
     <!--网站地图可视化：echarts-->
     <script src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
@@ -75,8 +75,8 @@
 
     <!--typora主题字体-->
     <link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext'
-          rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="{% static 'blog/css/typora_style.css' %}"/>
+        rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="{% static 'blog/css/typora_style.css' %}" />
     <!--关于页面-->
     <script src="{% static 'blog/js/site-map-figure.js' %}"></script>
     <!--资源页面-->
@@ -88,10 +88,10 @@
     <script src="{% static "blog/js/public.js" %}"></script>
     <script src="{% static "blog/js/message.js" %}"></script>
     <!--CSS-->
-    <link rel="stylesheet" href="{% static 'blog/css/public.css' %}"/>
+    <link rel="stylesheet" href="{% static 'blog/css/public.css' %}" />
 
     <!--editor.md-->
-    <link rel="stylesheet" href="{% static 'blog/css/editormd.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'blog/css/editormd.min.css' %}" />
     <link rel="stylesheet" href="{% static 'blog/lib/codemirror/codemirror.min.css' %}">
     <link rel="stylesheet" href="{% static 'blog/lib/codemirror/addon/dialog/dialog.css' %}">
     <link rel="stylesheet" href="{% static 'blog/lib/codemirror/addon/search/matchesonscrollbar.css' %}">
@@ -106,34 +106,53 @@
 
     {% block  extra %}{% endblock %}
 </head>
+
 <body class="bg container-fluid" id="bb" style="width: 100%;">
-<!--导航开始-->
-{% include "blog/navigation.html" %}
-<!--导航结束-->
-<!--主体框架开始-->
-<div class="row main-box" style="margin-top: 100px">
-    <div id='left-container' class="col-sm-9">
-        <!--左侧开始-->
-        {% block content %}
-        {% endblock %}
-        <!--左侧结束-->
-    </div>
-    <div id="base-right-side" class=" col-sm-3">
-        <!--右侧开始-->
-        {% block right %}
+    <!--导航开始-->
+    {% include "blog/navigation.html" %}
+    <!--导航结束-->
+    <!--主体框架开始-->
+    <div class="row main-box" style="margin-top: 100px">
+        <div id='left-container' class="col-sm-9">
+            <!--左侧开始-->
+            {% block content %}
+            {% endblock %}
+            <!--左侧结束-->
+        </div>
+        <div id="base-right-side" class=" col-sm-3">
+            <!--右侧开始-->
+            {% block right %}
             {% include "blog/right.html" %}
-        {% endblock %}
-        <!--右侧结束-->
+            {% endblock %}
+            <!--右侧结束-->
+        </div>
     </div>
-</div>
-<!--主题框架结束-->
-<!--底部开始-->
-{% block footer %}
+    <!--主题框架结束-->
+    <!--底部开始-->
+    {% block footer %}
     {% include "blog/footer.html" %}
-{% endblock %}
-<!--底部结束-->
-<script>
-    $.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});
-</script>
+    {% endblock %}
+    <!--底部结束-->
+    <script>
+        $.ajaxSetup({ headers: { "X-CSRFToken": '{{ csrf_token }}' } });
+        $(document).ready(function () {
+            //设置页面登陆状态
+            username = getCookie("username");
+            password = getCookie("password");
+            if (username !== null && password !== null) {
+                url = window.location.protocol + "//" + window.location.host + "/login/";
+                console.log(url);
+                $.post(url, {
+                    user_name: username,
+                    password: password
+                }, function (data, status) {
+                    if (data.split("|")[0] === "200") {
+                        $("#login-info-box").html(`<image src="${data.split('|')[1]}" alt='user-icon' width=20 height=20 class='rounded-circle' /><a href='javascript:void(0);'>${username}</a>`);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
+
 </html>

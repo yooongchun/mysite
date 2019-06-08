@@ -10,9 +10,9 @@
                 <div id="scroll-message">
                     <ul id="info-list">
                         {% for info in info_list %}
-                            <li data-toggle="tooltip" title="通知信息">
-                                {{ info.info }}
-                            </li>
+                        <li data-toggle="tooltip" title="通知信息">
+                            {{ info.info }}
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -25,40 +25,124 @@
                 <a class="nav-link active index-page nav-category" href="{% url 'blog:index' %}">首页</a>
             </li>
             {% for category in category_list %}
-                <li class="nav-item font-weight-bold nav-category">
-                    {% if category.category == '关于' %}
-                        <a class="nav-link nav-category"
-                           href="{% url 'blog:about' %}">{{ category.category }}</a>
-                    {% elif category.category == '资源' %}
-                        <a class="nav-link nav-category"
-                           href="{% url 'blog:resource' 1 %}">{{ category.category }}</a>
-                    {% elif category.category == '留言' %}
-                        <a class="nav-link nav-category"
-                           href="{% url 'blog:message' 1 %}">{{ category.category }}</a>
-                    {% elif category.category == '赞助' %}
-                        <a class="nav-link nav-category"
-                           href="{% url 'blog:sponsor' %}">{{ category.category }}</a>
-                    {% elif category.category == '摄影' %}
-                        <a class="nav-link nav-category"
-                           href="{% url 'blog:photograph_list' %}">{{ category.category }}</a>
-                    {% else %}
-                        <a class="nav-link nav-category"
-                           href="{% url 'blog:article_category' category.category 1 %}">{{ category.category }}</a>
-                    {% endif %}
-                </li>
+            <li class="nav-item font-weight-bold nav-category">
+                {% if category.category == '关于' %}
+                <a class="nav-link nav-category" href="{% url 'blog:about' %}">{{ category.category }}</a>
+                {% elif category.category == '资源' %}
+                <a class="nav-link nav-category" href="{% url 'blog:resource' 1 %}">{{ category.category }}</a>
+                {% elif category.category == '留言' %}
+                <a class="nav-link nav-category" href="{% url 'blog:message' 1 %}">{{ category.category }}</a>
+                {% elif category.category == '赞助' %}
+                <a class="nav-link nav-category" href="{% url 'blog:sponsor' %}">{{ category.category }}</a>
+                {% elif category.category == '摄影' %}
+                <a class="nav-link nav-category" href="{% url 'blog:photograph_list' %}">{{ category.category }}</a>
+                {% else %}
+                <a class="nav-link nav-category"
+                    href="{% url 'blog:article_category' category.category 1 %}">{{ category.category }}</a>
+                {% endif %}
+            </li>
 
             {% endfor %}
         </ul>
     </div>
-    <div class="col-md-3 row nav-search">
-        <form class="form-inline input-group-sm" action="{% url "blog:search" 1 %}" method="get">
-            <input class="form-control " type="search" placeholder="Search" name="keywords">
-            <div class="input-group-append">
-                <a href="javascript:void(0);">
-                    <button type="submit" class="btn-upload"><i class="el el-search icon-common"></i>
-                    </button>
-                </a>
-            </div>
-        </form>
+    <div class="col-md-2 row nav-search">
+        <input class="input-group-sm " style="opacity: 0.5;border: 0;" type="Search" placeholder="Search"
+            name="keywords">
+        <span style="margin-left: 10px"><a href="javascript:void(0);">
+                <i class="el el-search icon-common"></a></i></span>
+    </div>
+    <div class="col-sm-1 row">
+        <span data-toggle="modal" data-target="#login" id="login-info-box"><a href="javascript:void(0);"><i
+                    class="el el-adult icon-common" id="login-info">登陆</i></a></span>
+        <span data-toggle="modal" data-target="#register" style="margin-left: 10px" id="register-info-box"><a
+                href="javascript:void(0);"><i class="el el-user icon-common" id="register-info">注册</i></a></span>
+
     </div>
 </nav>
+
+<!-- 模态框：登陆 -->
+<div class="modal" id="login">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title mx-auto">登陆到本站</h4>
+                <button type="button" class="close" data-dismiss="modal" id="login-modal-close-btn">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend"><span class="input-group-text">用户</span></div>
+                        <input type="text" class="form-control user-name" placeholder="输入用户名" id="user-name">
+                    </div>
+                    <div class="input-group input-group-sm" style="margin-top: 10px">
+                        <div class="input-group-prepend"><span class="input-group-text">密码</span></div>
+                        <input type="password" class="form-control password" placeholder="输入密码" id="password">
+                    </div>
+                </form>
+                <div class="alert alert-danger alert-dismissable response-login-info-box"
+                    style="display: none;z-index: 200; margin-top: 10px">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong id="response-login-info"></strong>
+                </div>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-sm btn-primary" onclick="login_check()">登陆</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框：注册 -->
+<div class="modal" id="register">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title mx-auto">注册账号</h4>
+                <button type="button" class="close" data-dismiss="modal" id="register-modal-close-btn">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend"><span class="input-group-text">头像</span></div>
+                        <div class="register-icon-box" style="margin-left:10px">{% include "blog/comment-header-icon.html" %}</div>
+                    </div>
+                    <div class="input-group input-group-sm" style="margin-top: 10px">
+                        <div class="input-group-prepend"><span class="input-group-text">用户</span></div>
+                        <input type="text" class="form-control user-name" placeholder="输入用户名" id="register-user-name">
+                    </div>
+                    <div class="input-group input-group-sm" style="margin-top: 10px">
+                        <div class="input-group-prepend"><span class="input-group-text">密码</span></div>
+                        <input type="password" class="form-control password" placeholder="输入密码" id="register-password">
+                    </div>
+                    <div class="input-group input-group-sm" style="margin-top: 10px">
+                        <div class="input-group-prepend"><span class="input-group-text">确认</span></div>
+                        <input type="password" class="form-control password" placeholder="再次输入密码"
+                            id="register-password-verify">
+                    </div>
+                    <div class="input-group input-group-sm" style="margin-top: 10px">
+                        <div class="input-group-prepend"><span class="input-group-text">邮箱</span></div>
+                        <input type="text" class="form-control email" placeholder="邮箱地址" id="register-email">
+                    </div>
+                </form>
+                <div class="alert alert-danger alert-dismissable response-register-info-box"
+                    style="display: none;z-index: 200;margin-top: 10px">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong id="response-register-info"></strong>
+                </div>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-sm btn-primary" onclick="register()">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
