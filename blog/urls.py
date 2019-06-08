@@ -27,5 +27,6 @@ urlpatterns = [
          views.PhotoGraphTag.as_view(), name='photograph_collection'),
     path('login/', views.LoginCheck.as_view(), name="login"),
     path('register/', views.Register.as_view(), name="register"),
+    path('comment/<int:pk>/',views.CommentRecorder.as_view(),name="comment-recorder"),
 
 ]

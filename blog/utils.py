@@ -148,27 +148,23 @@ def record_approval(request):
 def record_message(request):
     """记录用户留言"""
     target = request.POST
-    timestamp = target['comment-time']
     user_name = target['user-name']
-    img_url = target['img']
     title = target['title']
-    email = target['email']
+    is_anonymous = target['is-anonymous']
     content = target['content']
     is_informed = False if target['need-reply'] == 'false' else True
-    # 时间转换
-    pub_date = datetime.fromtimestamp(int(timestamp) / 1000)
+    
+    pub_date = datetime.now()
     user = is_user_exist(user_name)
-    if not user:  # 如果用户不存在则创建
+    if is_anonymous and not is_user_exist(user_name):  # 如果匿名用户不存在则创建
         try:
-            im = get_object_or_404(Icon, url=img_url)
+            icon = Icon.objects.get(id=1)
             User.objects.create(username=user_name,
-                                email=email, icon=im).save()
+                                email="anonymous@as.com", icon=icon).save()
         except:
             return HttpResponse('创建用户出错~')
     # 创建留言
     user = get_object_or_404(User, username=user_name)
-    if not user.email == email:
-        return HttpResponse("该用户名已存在~")
     try:
         Message.objects.create(user=user, title=title, pub_date=pub_date, is_informed=is_informed,
                                content=content).save()
@@ -189,28 +185,23 @@ def record_comment(request, article):
     # 添加评论
     target = request.POST
     user_name = target['user-name']
-    img_url = target['img']
-    email = target['email']
     content = target['content']
     is_informed = False if target['need-reply'] == 'false' else True
-    timestamp = target['comment-time']
+    is_anonymous = False if target['is-anonymous'] == 'false' else True
     parent_comment_id = target['parent-comment-id']
-    # 时间转换
-    pub_date = datetime.fromtimestamp(int(timestamp) / 1000)
+    article_id = target['article-id']
+    pub_date = datetime.now()
     user = is_user_exist(user_name)
-    if not user:  # 如果用户不存在则创建
+    if is_anonymous and not is_user_exist(user_name):  # 如果匿名用户不存在则创建
         try:
-            print(img_url)
-            im = get_object_or_404(Icon, url=img_url)
-            print(im)
+            icon = Icon.objects.get(id=1)
             User.objects.create(username=user_name,
-                                email=email, icon=im).save()
+                                email="anonymous@as.com", icon=icon).save()
         except:
             return HttpResponse('创建用户出错~')
     # 创建评论
     user = get_object_or_404(User, username=user_name)
-    if not user.email == email:
-        return HttpResponse("该用户名已存在~")
+    article = get_object_or_404(Blog, id=article_id)
     try:
         if int(parent_comment_id) == PARAS().COMMENT_DEFAULT_ID:
             Comment.objects.create(user=user, blog=article, content=content, is_informed=is_informed,

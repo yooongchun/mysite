@@ -1,22 +1,16 @@
 {% load static %}
-<section class="comment">
+<section class="comment" id="article-comment-box" data="{{ article.id }}">
     <div class="card">
         <div class="card-body mt-3">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        {% include "blog/comment-header-icon.html" %}
-                    </span>
-                </div>
-                <input type="text" class="form-control nick-name" placeholder="用户名(*必填)" id="nick-name">
-                <input type="text" class="form-control email" placeholder="邮箱(仅用作回复通知，*必填)" id="email">
-            </div>
             {% block message %}{% endblock %}
-            <textarea type="text" class="form-control comment-content" placeholder="说点什么吧~" rows="5"></textarea>
-            <input type="checkbox" class="comment-reply" id="comment-reply">
+            <textarea type="text" class="form-control comment-content" id="comment-content-holder" placeholder="说点什么吧~" rows="5"></textarea>
+            <input type="checkbox" class="comment-reply" id="comment-reply-status" checked>
             <span>作者回复时邮件通知我</span>
+            <input style="margin-left:10px" type="checkbox" class="comment-is-anonymous-box" id="comment-is-anonymous" >
+            <span>匿名评论</span><span class="text-secondary"><small>(注意：匿名评论不能收到评论邮件回复！)</small></span>
+            
             <a id="btn-comment" title="提交你的评论" class="float-sm-right" data-toggle="tooltip">
-                <button class="btn btn-primary comment-submit">提交</button>
+                <button class="btn btn-primary comment-submit" id="comment-submit-btn">提交</button>
             </a>
         </div>
     </div>

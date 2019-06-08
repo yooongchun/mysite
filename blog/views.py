@@ -19,7 +19,7 @@ class LoginCheck(View):
     def post(self, request):
         username = request.POST["user_name"]
         password = request.POST["password"]
-        if User.objects.filter(username=username).count()!=1:
+        if User.objects.filter(username=username).count() != 1:
             return HttpResponse("user-not-exists")
         user = authenticate(username=username, password=password)
         if user:
@@ -38,13 +38,13 @@ class Register(View):
         username = request.POST["username"]
         password = request.POST["password"]
         email = request.POST["email"]
-        url=request.POST["icon"]
+        url = request.POST["icon"]
         if User.objects.filter(username=username).count() > 0:
             return HttpResponse("user-exists")
         try:
-            icon=Icon.objects.get(url=url)    
+            icon = Icon.objects.get(url=url)
             User.objects.create_user(
-                username=username, password=password, email=email,icon=icon).save()
+                username=username, password=password, email=email, icon=icon).save()
             return HttpResponse("200")
         except:
             return HttpResponse("create-user-error")
@@ -279,6 +279,11 @@ class Detail(View):
         article.save()
 
         return render(request, 'blog/detail.html', common_return_dict)
+
+
+class CommentRecorder(View):
+    def get(self, request, pk):
+        return HttpResponse("Nothing to do...")
 
     def post(self, request, pk):
         article = get_object_or_404(Blog, id=pk)

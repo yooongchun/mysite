@@ -180,10 +180,11 @@ function isMobile() {
 
 //写cookies 
 function setCookie(name, value) {
+    delCookie(name);
     var Days = 30;
     var exp = new Date();
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-    document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+    document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString() + ";path=/";
 }
 
 //读取cookies 
@@ -238,7 +239,6 @@ function login_check() {
             }, 1000);
         } else if (data.split("|")[0] === "200") {
             $("#response-login-info").text("登陆成功，一秒后自动关闭！");
-            setCookie("path", window.location.protocol + "//" + window.location.host);
             setCookie("username", user_name);
             setCookie("password", password);
 
@@ -345,7 +345,6 @@ function register() {
 
             } else if (data === "200") {
                 $("#response-register-info").text("注册成功，一秒后自动关闭！");
-                setCookie("path", window.location.protocol + "//" + window.location.host);
                 setCookie("username", user_name);
                 setCookie("password", password);
 

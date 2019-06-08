@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 row ">
+    <div class="col-md-5 row ">
         <ul class="nav nav-tabs justify-content-end">
             <li class="nav-item font-weight-bold ">
                 <a class="nav-link active index-page nav-category" href="{% url 'blog:index' %}">首页</a>
@@ -46,12 +46,17 @@
         </ul>
     </div>
     <div class="col-md-2 row nav-search">
-        <input class="input-group-sm " style="opacity: 0.5;border: 0;" type="Search" placeholder="Search"
-            name="keywords">
-        <span style="margin-left: 10px"><a href="javascript:void(0);">
-                <i class="el el-search icon-common"></a></i></span>
+        <form class="form-inline input-group-sm" action="{% url "blog:search" 1 %}" method="get">
+            <input class="form-control " type="search" placeholder="Search" name="keywords">
+            <div class="input-group-append">
+                <a href="javascript:void(0);">
+                    <button type="submit" class="btn-upload" style="background: rgba(0,0,0,0);border: none"><i
+                            class="el el-search icon-common"></i></button>
+                </a>
+            </div>
+        </form>
     </div>
-    <div class="col-sm-1 row">
+    <div class="col-md-2 row">
         <span data-toggle="modal" data-target="#login" id="login-info-box"><a href="javascript:void(0);"><i
                     class="el el-adult icon-common" id="login-info">登陆</i></a></span>
         <span data-toggle="modal" data-target="#register" style="margin-left: 10px" id="register-info-box"><a
@@ -112,7 +117,8 @@
                 <form>
                     <div class="input-group input-group-sm">
                         <div class="input-group-prepend"><span class="input-group-text">头像</span></div>
-                        <div class="register-icon-box" style="margin-left:10px">{% include "blog/comment-header-icon.html" %}</div>
+                        <div class="register-icon-box" style="margin-left:10px">
+                            {% include "blog/comment-header-icon.html" %}</div>
                     </div>
                     <div class="input-group input-group-sm" style="margin-top: 10px">
                         <div class="input-group-prepend"><span class="input-group-text">用户</span></div>

@@ -1,22 +1,8 @@
 /*----------------评论功能-----------------*/
 $(document).ready(function () {
     /*---------------------评论消息--------------------*/
-    //选择头像
-    $(".comment-box .comment").each(function () {
-        let parent = $(this);
-        parent.find(".show-ico-btn").click(function () {
-            parent.find('.pop-ico').fadeIn();
-            parent.find(".ico-list").find("a").each(function () {
-                $(this).bind("click", function () {
-                    parent.find(".show-ico-btn").find("img").attr("src", $(this).find("img").attr("src"));
-                    parent.find(".pop-ico").fadeOut();
-                });
-            });
-        });
-        //回送消息
-        parent.find(".comment-submit").click(function () {
-            send_comment_data(parent, 0);
-        });
+    $(".comment-box .comment-submit").click(function () {
+        send_comment_msg($(".comment-box"), 0);
     });
     /*---------------------回复评论--------------------*/
     $(".comment-display-list .comment-reply-btn").each(function () {
@@ -25,125 +11,64 @@ $(document).ready(function () {
         $(this).click(function () {
             parent.find(".reply-comment").fadeIn();
         });
-        //选择头像
-        parent.find(".show-ico-btn").click(function () {
-            parent.find(".pop-ico").fadeIn();
-        });
-        parent.find(".ico-list").find("a").each(function () {
-            $(this).bind("click", function () {
-                parent.find(".show-ico-btn").find("img").attr("src", $(this).find("img").attr("src"));
-                parent.find(".pop-ico").fadeOut();
-            });
-        });
         //回送数据
         parent.find(".comment-submit").click(function () {
             let parent_comment_id = Number(parent.attr("data-value"));
-            send_comment_data(parent, parent_comment_id);
+            send_comment_msg(parent, parent_comment_id);
         });
     });
 });
 
 /*-----------------------依赖函数---------------------*/
-
-//发送评论数据
-function send_comment_data(parent, parent_comment_id) {
-    let user = parent.find(".nick-name").val();
-    let email = parent.find(".email").val();
-    let content = parent.find(".comment-content").val();
-    let reply = parent.find(".comment-reply").is(':checked');
-    let COMMENT_SUCCESS_RETURN_INFO = '评论成功';
-    if (user === "") {
-        //提示信息
-        // alert("用户名不能为空~");
-        parent.find(".response-comment-info").text("用户名不能为空~");
-        parent.find(".response-comment-info-box").fadeIn();
+function send_comment_msg(parent, parent_comment_id) {
+    let username = getCookie("username");
+    let password = getCookie("password");
+    let text = parent.find(".comment-content").val();
+    let comment_need_reply_status = parent.find(".comment-reply").is(":checked");
+    let comment_is_anonymous = parent.find(".comment-is-anonymous-box").is(":checked");
+    let article_id = $("#article-comment-box").attr("data");
+    if ((username === null || password === null) && comment_is_anonymous === false) {
+        parent.find(".comment .response-comment-info").text("你还没有登陆，请登录或者选择匿名评论~");
+        parent.find(".comment .response-comment-info-box").fadeIn();
         setTimeout(function () {
-            parent.find(".response-comment-info-box").fadeOut();
+            parent.find(".comment .response-comment-info-box").fadeOut();
         }, 1000);
         return;
-    }
-    if (email === "") {
-        //提示信息
-        // alert("邮箱地址不能为空~");
-        parent.find(".response-comment-info").text("邮箱地址不能为空~");
-        parent.find(".response-comment-info-box").fadeIn();
+    } else if (text === "") {
+        parent.find(".comment .response-comment-info").text("评论内容不能为空~");
+        parent.find(".comment .response-comment-info-box").fadeIn();
         setTimeout(function () {
-            parent.find(".response-comment-info-box").fadeOut();
+            parent.find(".comment .response-comment-info-box").fadeOut();
         }, 1000);
         return;
-    }
-    if (email.indexOf('@') === -1) {
-        //提示信息
-        // alert("邮箱地址不正确~");
-        parent.find(".response-comment-info").text("邮箱地址不正确~");
-        parent.find(".response-comment-info-box").fadeIn();
-        setTimeout(function () {
-            parent.find(".response-comment-info-box").fadeOut();
-        }, 1000);
-        return;
-    }
-    if (content === "") {
-        //提示信息
-        // alert("评论内容不能为空~");
-        parent.find(".response-comment-info").text("评论内容不能为空~");
-        parent.find(".response-comment-info-box").fadeIn();
-        setTimeout(function () {
-            parent.find(".response-comment-info-box").fadeOut();
-        }, 1000);
-        return;
-    }
-    $.post("",
-        {
-            'img': parent.find(".comment-img").attr('src'),
-            'user-name': user,
-            'email': email,
-            'content': content,
-            'need-reply': reply,
-            'comment-time': (new Date()).valueOf(),
-            'parent-comment-id': parent_comment_id,
-            'type': 'COMMENT',
-        },
-        function (data) {
-            //显示回传信息
-            parent.find(".response-comment-info").text(data);
-            parent.find(".response-comment-info-box").fadeIn();
-            setTimeout(function () {
-                parent.find(".response-comment-info-box").fadeOut();
-            }, 1000);
-            //成功的评论则重载页面
-            if (data === COMMENT_SUCCESS_RETURN_INFO) {
-                setTimeout(function () {
-                    window.location.href = window.location.href + "#comment-display-list";
-                    window.location.reload();
-
-                }, 1000);
-            }
-        });
-}
-
-
-function setCookie(cname, cvalue, exdays) {
-    /*设置cookie*/
-    let d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-
-function getCookie(cname) {
-    /*获取cookie*/
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
+    } else {
+        if (comment_is_anonymous || username === "") {
+            username = "匿名";
         }
+        url = window.location.protocol + "//" + window.location.host + "/comment/" + article_id + '/';
+        $.post(url, {
+                'user-name': username,
+                'content': text,
+                'need-reply': comment_need_reply_status,
+                'parent-comment-id': parent_comment_id,
+                'is-anonymous': comment_is_anonymous,
+                'article-id': article_id,
+                'type': 'COMMENT',
+            },
+            function (data) {
+                //显示回传信息
+                parent.find(".comment .response-comment-info").text(data);
+                parent.find(".comment .response-comment-info-box").fadeIn();
+                setTimeout(function () {
+                    parent.find(".comment .response-comment-info-box").fadeOut();
+                }, 1000);
+                //成功的评论则重载页面
+                if (data === "评论成功") {
+                    setTimeout(function () {
+                        window.location.href = window.location.href + "#comment-display-list";
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
     }
-    return "";
-}
-
-function checkCookie(cookieName) {
-    /*检查cookie是否存在*/
-    return getCookie(cookieName) !== "";
 }
