@@ -83,3 +83,5 @@ ABOUT_PAGE_AUTHOR_INFO = {'name': '查永春',
                           'education_profession_start_month': '09',
                           'education_profession_finish_year': '2018',
                           'education_profession_finish_month': '06'}
+# 项目合作信息
+PROJECT_COOPARATION_INFO = '承接项目，范围包括但不限于爬虫、Web开发、机器学习、数据建模、UG工程建模、PDF数据批提取等项目，如有意向合作可以加我微信！'

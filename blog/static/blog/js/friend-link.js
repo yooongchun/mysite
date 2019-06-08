@@ -5,7 +5,7 @@ $(document).ready(function () {
         let site_name = parent.find('input.link-site-name').val();
         let url = parent.find('input.link-url').val();
         let description = parent.find('input.link-description').val();
-        let target_url = 'http://' + window.location.host.toString() + '/blog/friendlink/';
+        let target_url = window.location.protocol + '//' + window.location.host.toString() + '/blog/friendlink/';
         $.post(target_url, {
             'type': 'FRIENDLINK',
             'site_name': site_name,

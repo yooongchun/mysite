@@ -89,6 +89,7 @@ class About(View):
         common_return_dict.update(config.ABOUT_PAGE_AUTHOR_INFO)
         common_return_dict['visit_rank'] = utils.get_visitor_rank(visitor.id)
         common_return_dict['category'] = config.ABOUT_PAGE_TITLE
+        common_return_dict['project_cooparation_info']=config.PROJECT_COOPARATION_INFO
         return render(request, 'blog/about.html', common_return_dict)
 
 
