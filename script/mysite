@@ -1,0 +1,47 @@
+server{
+    listen 80;
+    server_name www.zhayongchun.com;
+    location /static/ {
+        alias /home/mysite/blog/static/;
+    }
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/mysite/script/mysite.sock;
+    }
+}
+
+server{
+    listen 80;
+    server_name www.zhayongchun.cn;
+    location /static/ {
+        alias /home/mysite/blog/static/;
+    }
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/mysite/script/mysite.sock;
+    }
+}
+
+server{
+    listen 80;
+    server_name www.yooongchun.com;
+    location /static/ {
+        alias /home/mysite/blog/static/;
+    }
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/mysite/script/mysite.sock;
+    }
+}
+
+server{
+    listen 80;
+    server_name www.yooongchun.cn;
+    location /static/ {
+        alias /home/mysite/blog/static/;
+    }
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/mysite/script/mysite.sock;
+    }
+}

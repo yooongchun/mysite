@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+from mysite import config
 import pymysql
 
 pymysql.install_as_MySQLdb()
@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%ql&)sx)d$@_l2lz8#m2aa2443fltmae*2k^hnm!zsfg+o_p1c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config.DEBUG_MODE
 
 ALLOWED_HOSTS = ["*", ]
 
@@ -60,8 +60,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,11 +81,11 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
-        'USER': '******',
-        'PASSWORD': '******',
-        'HOST': '127.0.0.1',
-        'POST': '3306',
+        'NAME': config.MYSQL_PARAS['NAME'],
+        'USER': config.MYSQL_PARAS['USER'],
+        'PASSWORD': config.MYSQL_PARAS['PASSWORD'],
+        'HOST': config.MYSQL_PARAS['HOST'],
+        'PORT': config.MYSQL_PARAS['PORT'],
     }
 }
 
