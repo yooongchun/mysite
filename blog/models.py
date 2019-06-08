@@ -167,7 +167,7 @@ class Comment(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return str(self.id)
+        return str(self.content)
 
 
 class Message(models.Model):
