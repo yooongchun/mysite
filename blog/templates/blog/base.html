@@ -141,7 +141,6 @@
             password = getCookie("password");
             if (username !== null && password !== null) {
                 url = window.location.protocol + "//" + window.location.host + "/login/";
-                console.log(url);
                 $.post(url, {
                     user_name: username,
                     password: password

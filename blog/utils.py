@@ -12,69 +12,9 @@ from django.db.models import Q, Sum
 from django.shortcuts import HttpResponse, get_object_or_404
 from qqwry import QQwry, updateQQwry
 
+from blog import config
 from blog.models import Blog, Category, Comment, InfoMsg, Visitor, User, Icon, Message, FriendLink, Collection, \
     TagProfile, CommonDataCache, ArchiveFolder, CZDataDownloadList
-
-
-class PARAS:
-    """全局参数"""
-
-    def __init__(self):
-        self.POPULAR_BLOG_NUM = 3  # 最受欢迎文章展示数量
-        self.LATEST_BLOG_NUM = 5  # 最新文章展示数量
-        self.TYPE_FOR_QUERY_MAP_DATA = 'QUERY_FOR_MAP_DATA'  # 关于页面map数据请求标志
-        self.TYPE_FOR_APPROVAL = 'APPROVAL'  # 点赞标志
-        self.TYPE_FOR_COMMENT = 'COMMENT'  # 评论标志
-        self.TYPE_FOR_RESOURCE = 'RESOURCE'  # 资源请求标志
-        self.TYPE_FOR_FRIEND_LINK = 'FRIENDLINK'  # 申请友链标志
-        self.BLOG_DEFAULT_PASSWORD = '0'  # 博客默认密码
-        self.RESOURCE_DEFAULT_PASSWORD = '0'  # 资源默认密码
-        self.COMMENT_DEFAULT_ID = 0  # 默认父评论id
-        self.PAGE_DISPLAY_BLOG_NUM = 10  # 每页展示内容数
-        self.PAGE_DISPLAY_MESSAGE_NUM = 10
-        self.TYPE_FOR_QUERY_COMMENT_DATA = 'COMMENT_DATA'  # 请求评论数据
-        self.DOWNLOAD_IP_DATA_DATE = 11  # 每月更新纯真数据库的时间
-        self.MAX_PHOTOGRAPH_NUM = 2  # 避免耗时，摄影图片每次传送不超过该值
-        self.LOADING_IMG_URL = "https://yooongchun-photograph.oss-cn-hangzhou.aliyuncs.com/loading2.gif"  # 加载过程动图
-        self.TYPE_FOR_MESSAGE = 'MESSAGE'  # 留言标志
-        self.HOME_PAGE_TITLE = '永春小站-首页'  # 页面标题
-        self.ABOUT_PAGE_TITLE = '关于'
-        self.CORPORATION_PAGE_TITLE = '合作'
-        self.ESSAY_PAGE_TITLE = '随笔'
-        self.MESSAGE_PAGE_TITLE = '留言'
-        self.ARTICLE_PAGE_TITLE = '文章分类'
-        self.DETAIL_PAGE_TITLE = '文章详情'
-
-        self.IP_DATABASE_FILENAME = 'ip_list.dat'  # 纯真ip数据库保存文件名
-        self.BAIDU_AK = '***'  # 百度地图使用授权AK
-        self.APPROVAL_SUCCESS_RETURN_INFO = '太棒了，你赞了这篇文章~'  # 点赞行为提示信息
-        self.APPROVAL_REPEAT_RETURN_INFO = '你已经点过赞啦~'
-        self.COMMENT_SUCCESS_RETURN_INFO = '评论成功'  # 评论信息提示
-        self.MESSAGE_SUCCESS_RETURN_INFO = '留言成功'  # 留言信息提示
-        self.UNKNOWN_RETURN_INFO = '不知道该干嘛~'  # 未知信息提示
-
-        self.EMAIL_KEY = '****'  # QQ邮箱
-        self.EMAIL_SEND_ACCOUNT = '******'
-        self.EMAIL_RECEIVE_ACCOUNT = '*****'
-        # 关于页面个人信息展示
-        self.ABOUT_PAGE_AUTHOR_INFO = {'name': '查永春',
-                                       'description': '这是一名想去看遍世界的技术宅！',
-                                       'birth_year': '1994',
-                                       'birth_month': '06',
-                                       'birth_day': '01',
-                                       'education_school': '上海交通大学',
-                                       'education_degree': '学士',
-                                       'education_start_year': '2014',
-                                       'education_start_month': '09',
-                                       'education_finish_year': '2018',
-                                       'education_finish_month': '06',
-                                       'education_profession': '能源动力工程',
-                                       'education_profession_degree': '本科',
-                                       'education_profession_start_year': '2014',
-                                       'education_profession_start_month': '09',
-                                       'education_profession_finish_year': '2018',
-                                       'education_profession_finish_month': '06'}
-        self.VISITOR_RANK_LENGTH = 7  # 访客排名展示长度
 
 
 def package_article_archive(article_list):
@@ -134,7 +74,7 @@ def record_approval(request):
     id = request.POST['article-id']
     article = get_object_or_404(Blog, id=id)
     if is_approved(ip, article.id):
-        return HttpResponse(PARAS().APPROVAL_REPEAT_RETURN_INFO)
+        return HttpResponse(config.APPROVAL_REPEAT_RETURN_INFO)
     # 更新文章点赞数
     article.approval_num += 1
     article.save()
@@ -142,7 +82,7 @@ def record_approval(request):
     visitor = Visitor.objects.get(ip=ip)
     visitor.approval_blog_list.add(article)
     visitor.save()
-    return HttpResponse(PARAS().APPROVAL_SUCCESS_RETURN_INFO)
+    return HttpResponse(config.APPROVAL_SUCCESS_RETURN_INFO)
 
 
 def record_message(request):
@@ -153,7 +93,7 @@ def record_message(request):
     is_anonymous = target['is-anonymous']
     content = target['content']
     is_informed = False if target['need-reply'] == 'false' else True
-    
+
     pub_date = datetime.now()
     user = is_user_exist(user_name)
     if is_anonymous and not is_user_exist(user_name):  # 如果匿名用户不存在则创建
@@ -173,11 +113,11 @@ def record_message(request):
     try:  # 当有用户留言时给作者发邮件
         threading.Thread(target=send_mail,
                          args=({'text': '标题：' + title + '\n内容：' + content, 'header': '用户[' + user_name + ']给你留言了'
-                                }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
-                               PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
+                                }, config.EMAIL_SEND_ACCOUNT, config.EMAIL_KEY,
+                               config.EMAIL_RECEIVE_ACCOUNT)).start()
     except:
         pass
-    return HttpResponse(PARAS().MESSAGE_SUCCESS_RETURN_INFO)
+    return HttpResponse(config.MESSAGE_SUCCESS_RETURN_INFO)
 
 
 def record_comment(request, article):
@@ -203,7 +143,7 @@ def record_comment(request, article):
     user = get_object_or_404(User, username=user_name)
     article = get_object_or_404(Blog, id=article_id)
     try:
-        if int(parent_comment_id) == PARAS().COMMENT_DEFAULT_ID:
+        if int(parent_comment_id) == config.COMMENT_DEFAULT_ID:
             Comment.objects.create(user=user, blog=article, content=content, is_informed=is_informed,
                                    pub_date=pub_date).save()
         else:
@@ -213,36 +153,36 @@ def record_comment(request, article):
     except:
         return HttpResponse('创建评论出错~')
     try:  # 当有用户评论时给作者发邮件
-        if int(parent_comment_id) == PARAS().COMMENT_DEFAULT_ID:
+        if int(parent_comment_id) == config.COMMENT_DEFAULT_ID:
             threading.Thread(target=send_mail, args=({'text': '评论内容：' + content,
                                                       'header': '用户[' + user_name + ']评论了你的文章[' + article.title + ']'
-                                                      }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
-                                                     PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
+                                                      }, config.EMAIL_SEND_ACCOUNT, config.EMAIL_KEY,
+                                                     config.EMAIL_RECEIVE_ACCOUNT)).start()
         elif user_name != 'yooongchun':
             threading.Thread(target=send_mail, args=({'text': '评论内容：' + content,
                                                       'header': '用户[' + user_name + ']回复了' + get_object_or_404(Comment,
                                                                                                                id=parent_comment_id).user.username + '的评论'
-                                                      }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
-                                                     PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
+                                                      }, config.EMAIL_SEND_ACCOUNT, config.EMAIL_KEY,
+                                                     config.EMAIL_RECEIVE_ACCOUNT)).start()
     except:
         pass
     try:  # 是否需给用户回复
         parent = get_object_or_404(Comment, id=parent_comment_id)
-        if int(parent_comment_id) != PARAS().COMMENT_DEFAULT_ID:  # 初始评论，不需通知
+        if int(parent_comment_id) != config.COMMENT_DEFAULT_ID:  # 初始评论，不需通知
             if parent.is_informed:  # 用户设定不需通知
-                if user_name == 'yooongchun' or user.email == 'yooongchun@foxmail.com':  # 非作者回复，不需通知
+                if user_name == config.SUPER_USER:  # 非作者回复，不需通知
                     user_email = parent.user.email
                     threading.Thread(target=send_mail, args=({
-                        'text': '作者yooongchun回复了您对文章[' + parent.blog.title + ']的评论' + '\n您说：[' + parent.content + ']\n作者回复您：[' + content + ']\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://www.yooongchun.cn\n祝您生活愉快！',
-                        'header': '您在永春小站-文章[' + parent.blog.title + ']下的留言有新的回复啦~'
-                    }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
+                        'text': '作者'+user_name+'回复了您对文章[' + parent.blog.title + ']的评论' + '\n您说：[' + parent.content + ']\n作者回复您：[' + content + ']\n\n\n这是自动回复，您可以直接回复此邮件跟作者交流，也可以访问:'+config.WEB_DOMAIN+' 获取更多资讯！\n祝您生活愉快！',
+                        'header': '您在'+config.SITE_TITLE+'-文章[' + parent.blog.title + ']下的留言有新的回复啦~'
+                    }, config.EMAIL_SEND_ACCOUNT, config.EMAIL_KEY,
                         user_email)).start()
     except:
         pass
     # 更新文章评论数
     article.comment_num += 1
     article.save()
-    return HttpResponse(PARAS().COMMENT_SUCCESS_RETURN_INFO)
+    return HttpResponse(config.COMMENT_SUCCESS_RETURN_INFO)
 
 
 def record_friend_link(request):
@@ -268,8 +208,8 @@ def record_friend_link(request):
             try:  # 当有用户申请友情链接时给作者发邮件
                 threading.Thread(target=send_mail,
                                  args=({'text': '名称：' + name + '\n链接：' + url, 'header': '新的友链申请:' + name
-                                        }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
-                                       PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
+                                        }, config.EMAIL_SEND_ACCOUNT, config.EMAIL_KEY,
+                                       config.EMAIL_RECEIVE_ACCOUNT)).start()
             except:
                 pass
             return '添加成功！'
@@ -317,7 +257,7 @@ def group_comment(comment_list):
 def get_city_of_ip(ip):
     """根据IP地址获取城市名称"""
     q = QQwry()
-    res = q.load_file(PARAS().IP_DATABASE_FILENAME, loadindex=False)
+    res = q.load_file(config.IP_DATABASE_FILENAME, loadindex=False)
     if res:
         result = q.lookup(ip)
         q.clear()
@@ -327,22 +267,22 @@ def get_city_of_ip(ip):
 def fetch_cz_ip_database():
     """每月下载纯真数据库"""
     try:
-        updateQQwry(PARAS().IP_DATABASE_FILENAME)
+        updateQQwry(config.IP_DATABASE_FILENAME)
         try:  # 发邮件通知
             threading.Thread(target=send_mail,
                              args=(
-                                 {'text': '下载最新版纯真数据库', 'header': '当前纯真数据库下载完成，一切OK!'}, PARAS(
+                                 {'text': str(datetime.now())+':下载最新版纯真数据库', 'header': '当前纯真数据库下载完成，一切OK!'}, PARAS(
                                  ).EMAIL_SEND_ACCOUNT,
-                                 PARAS().EMAIL_KEY, PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
+                                 config.EMAIL_KEY, config.EMAIL_RECEIVE_ACCOUNT)).start()
         except:
             pass
     except Exception as e:
         try:  # 发邮件通知
             threading.Thread(target=send_mail,
                              args=(
-                                 {'text': '下载最新版纯真数据库失败', 'header': '当前纯真数据库出错：%s' % e}, PARAS(
+                                 {'text': str(datetime.now())+':下载最新版纯真数据库失败', 'header': '当前纯真数据库出错：%s' % e}, PARAS(
                                  ).EMAIL_SEND_ACCOUNT,
-                                 PARAS().EMAIL_KEY, PARAS().EMAIL_RECEIVE_ACCOUNT)).start()
+                                 config.EMAIL_KEY, config.EMAIL_RECEIVE_ACCOUNT)).start()
         except:
             pass
 
@@ -350,7 +290,7 @@ def fetch_cz_ip_database():
 def get_coordination(city):
     """根据地名获得经纬度信息"""
     url = 'http://api.map.baidu.com/geocoder/v2/'
-    ak = PARAS().BAIDU_AK
+    ak = config.BAIDU_AK
     try:
         res = requests.get(
             url=url, params={"address": city, "output": "json", "ak": ak}, timeout=5)
@@ -391,7 +331,7 @@ def refresh(request):
                           'total_approval_num': total_approval_num,
                           'collection_list': collection_list,
                           'archive_folder_list': archive_folder_list,
-                          'default_password': PARAS().BLOG_DEFAULT_PASSWORD,
+                          'default_password': config.BLOG_DEFAULT_PASSWORD,
                           'image_list': [[i % 10 if i != 0 else 1, img] for i, img in enumerate(icons)],
                           'random_image': choice(icons), }
     return common_return_dict
@@ -419,8 +359,8 @@ def refresh_map_data():
 def get_visitor_rank(num):
     """获取访客访问排名"""
     rank = []
-    L = PARAS().VISITOR_RANK_LENGTH if len(
-        str(num)) < PARAS().VISITOR_RANK_LENGTH else len(str(num))
+    L = config.VISITOR_RANK_LENGTH if len(
+        str(num)) < config.VISITOR_RANK_LENGTH else len(str(num))
     for ch in str('{:0>' + str(L) + 'd}').format(num):
         rank.append(int(ch))
     return rank
@@ -473,9 +413,9 @@ def send_message_reply():
             user_email = msg.user.email
             threading.Thread(target=send_mail, args=({
                 'text': '您' + msg.pub_date.strftime(
-                    '%Y年%m月%d日 %H:%M:%S') + '在永春小站的留言：' + msg.content + '\n作者回复：' + msg.reply_content + '\n\n\n这是自动回复，请勿回复此邮件，谢谢！\n更多资讯，可访问:http://yooongchun.cn\n祝您生活愉快！',
-                'header': '您在永春小站的留言有新的回复啦~'
-            }, PARAS().EMAIL_SEND_ACCOUNT, PARAS().EMAIL_KEY,
+                    '%Y年%m月%d日 %H:%M:%S') + '在永春小站'+config.SITE_TITLE+'的留言：' + msg.content + '\n作者回复：' + msg.reply_content + '\n\n\n这是自动回复，您可以直接回复此邮件跟作者交流，也可以访问:'+config.WEB_DOMAIN+' 获取更多资讯！\n祝您生活愉快！',
+                'header': '您在'+config.WEB_DOMAIN+'的留言有新的回复啦~'
+            }, config.EMAIL_SEND_ACCOUNT, config.EMAIL_KEY,
                 user_email)).start()
         except:
             pass
@@ -555,11 +495,11 @@ def update():
     threading.Thread(target=update_collection_data).start()  # 更新专栏阅读数
     threading.Thread(target=update_tag_data).start()  # 更新标签阅读数
 
-    if not os.path.isfile(PARAS().IP_DATABASE_FILENAME):
+    if not os.path.isfile(config.IP_DATABASE_FILENAME):
         threading.Thread(target=fetch_cz_ip_database).start()  # 下载纯真ip数据库
 
     elif CZDataDownloadList.objects.filter(Q(download_date__year=datetime.now().year),
                                            Q(download_date__month=datetime.now().month)).count() < 1 \
-            and datetime.now().day == PARAS().DOWNLOAD_IP_DATA_DATE:
+            and datetime.now().day == config.DOWNLOAD_IP_DATA_DATE:
         CZDataDownloadList.objects.create(download_date=datetime.now()).save()
         threading.Thread(target=fetch_cz_ip_database).start()  # 下载纯真ip数据库

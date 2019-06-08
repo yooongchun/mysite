@@ -166,13 +166,11 @@ function isMobile() {
     }
 
     var screen_width = window.screen.width;
-    console.log(screen_width);
 
     //根据屏幕分辨率判断是否是手机
     if (screen_width < 576) {
         mobile_flag = true;
     }
-    console.log(mobile_flag);
     return mobile_flag;
 }
 
