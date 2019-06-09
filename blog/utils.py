@@ -333,7 +333,7 @@ def refresh(request):
                           'archive_folder_list': archive_folder_list,
                           'default_password': config.BLOG_DEFAULT_PASSWORD,
                           'image_list': [[i % 10 if i != 0 else 1, img] for i, img in enumerate(icons)],
-                          'random_image': choice(icons), }
+                          'random_image': choice(icons) if icons.count() > 0 else "", }
     return common_return_dict
 
 
@@ -423,7 +423,7 @@ def send_message_reply():
 
 def update_cache_data():
     """更新缓存数据库表"""
-    common_data_cache = CommonDataCache.objects.get(id=1)
+    common_data_cache = get_object_or_404(CommonDataCache, id=1)
 
     archive_folder_list = ArchiveFolder.objects.all()
 

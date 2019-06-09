@@ -89,7 +89,7 @@ class About(View):
         common_return_dict.update(config.ABOUT_PAGE_AUTHOR_INFO)
         common_return_dict['visit_rank'] = utils.get_visitor_rank(visitor.id)
         common_return_dict['category'] = config.ABOUT_PAGE_TITLE
-        common_return_dict['project_cooparation_info']=config.PROJECT_COOPARATION_INFO
+        common_return_dict['project_cooparation_info'] = config.PROJECT_COOPARATION_INFO
         return render(request, 'blog/about.html', common_return_dict)
 
 
@@ -201,7 +201,6 @@ class MessageInfo(View):
             message_list = message_list[start:end]
         common_return_dict['image_list'] = [
             [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
-        common_return_dict['random_image'] = choice(user_image_list)
         common_return_dict['title'] = config.MESSAGE_PAGE_TITLE
         common_return_dict['message_list'] = message_list
         common_return_dict['page'] = page
@@ -273,7 +272,6 @@ class Detail(View):
         common_return_dict['image_list'] = [
             [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
         common_return_dict['category'] = article.category.category
-        common_return_dict['random_image'] = choice(user_image_list)
 
         # 更新阅读量
         article.read_num += 1
@@ -317,7 +315,6 @@ class ResourceInfo(View):
             resource_list = resource_list[start:end]
         common_return_dict['image_list'] = [
             [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
-        common_return_dict['random_image'] = choice(user_image_list)
         common_return_dict['title'] = config.RESOURSE_TITLE
         common_return_dict['resource_list'] = resource_list
         common_return_dict['page'] = page
@@ -424,7 +421,6 @@ class Collection(View):
             common_return_dict['image_list'] = [
                 [i % 10 if i != 0 else 1, img] for i, img in enumerate(user_image_list)]
             common_return_dict['category'] = article.category.category
-            common_return_dict['random_image'] = choice(user_image_list)
 
             # 更新阅读量
             article.read_num += 1
