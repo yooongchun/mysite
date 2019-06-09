@@ -98,7 +98,7 @@ def record_message(request):
     user = is_user_exist(user_name)
     if is_anonymous and not is_user_exist(user_name):  # 如果匿名用户不存在则创建
         try:
-            icon = Icon.objects.get(id=1)
+            icon = choice(Icon.objects.all())
             User.objects.create(username=user_name,
                                 email="anonymous@as.com", icon=icon).save()
         except:
@@ -134,7 +134,7 @@ def record_comment(request, article):
     user = is_user_exist(user_name)
     if is_anonymous and not is_user_exist(user_name):  # 如果匿名用户不存在则创建
         try:
-            icon = Icon.objects.get(id=1)
+            icon = choice(Icon.objects.all())
             User.objects.create(username=user_name,
                                 email="anonymous@as.com", icon=icon).save()
         except:

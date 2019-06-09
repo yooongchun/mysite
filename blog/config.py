@@ -57,12 +57,12 @@ COMMENT_DEFAULT_ID = 0  # 默认父评论id：区别于回复评论的评论，�
 
 
 #-------------------以下参数必须修改为自己的信息--------------------#
-SUPER_USER = 'yooongchun'  # 后台账号用户名
+SUPER_USER = '***'  # 后台账号用户名
 WEB_DOMAIN = 'http://www.zhayongchun.com'  # 域名信息
 # 百度地图使用授权AK，用于关于页面地图数据的请求，请查阅百度地图API获取授权
-BAIDU_AK = 'x2ZTlRkWM2FYoQbvGOufPnFK3Fx4vFR1'
-EMAIL_KEY = 'meeuskiyxnuxdcfj'  # QQ邮箱，用于发送邮件：通知用户或者通知作者，请查阅QQ邮箱使用相关教程获取授权
-EMAIL_SEND_ACCOUNT = 'yooongchun@foxmail.com'  # 发送邮件的QQ邮箱账号
+BAIDU_AK = '***'
+EMAIL_KEY = '***'  # QQ邮箱，用于发送邮件：通知用户或者通知作者，请查阅QQ邮箱使用相关教程获取授权
+EMAIL_SEND_ACCOUNT = '***'  # 发送邮件的QQ邮箱账号
 EMAIL_RECEIVE_ACCOUNT = EMAIL_SEND_ACCOUNT
 
 # 关于页面作者信息展示

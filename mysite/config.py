@@ -3,7 +3,7 @@ DEBUG_MODE = False  # 调试模式：在本地测试时使用True
 # Mysql数据库连接信息
 MYSQL_PARAS = {
     'NAME': 'blog',
-    'USER': 'yooongchun',
-    'PASSWORD': '121561zyc',
+    'USER': '***',
+    'PASSWORD': '***',
     'HOST': '127.0.0.1',
     'PORT': '3306', }
