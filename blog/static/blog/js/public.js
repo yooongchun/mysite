@@ -145,7 +145,9 @@ function fit_mobile() {
         $('#base-right-side').remove();
         $('#left-container').removeClass('col-sm-9').addClass('container-fluid');
         $('.container').css('width', '100%');
-        $('.main-box').css('margin-top', '150px');
+        $('.main-box').css('margin-top', '200px');
+        $('.nav-search').remove();
+
     }
 }
 
