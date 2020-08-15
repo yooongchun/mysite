@@ -2,7 +2,6 @@
 
 基于Django2搭建的个人博客网站
 
-访问地址：[永春小站](https://www.yooongchun.com)
 
 ---
 
